@@ -87,6 +87,95 @@
   .wrap{max-width:1440px;margin:0 auto;padding:0 64px;position:relative;z-index:2;}
   section{position:relative;z-index:2;}
 
+  /* ---------- Mobile menu (hamburger + fullscreen) ---------- */
+  .mobile-menu-btn{
+    display:none;position:fixed;top:12px;right:14px;z-index:80;
+    width:40px;height:40px;border-radius:50%;
+    background:rgba(10,10,10,.55);
+    backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    border:1px solid rgba(255,255,255,.18);
+    cursor:pointer;
+    flex-direction:column;justify-content:center;align-items:center;gap:5px;
+    padding:0;
+  }
+  .mobile-menu-btn span{
+    display:block;width:18px;height:1.5px;background:#fff;
+    border-radius:2px;
+    transition:transform .32s cubic-bezier(.65,0,.35,1),opacity .2s ease;
+  }
+  .mobile-menu-btn.is-open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+  .mobile-menu-btn.is-open span:nth-child(2){opacity:0;}
+  .mobile-menu-btn.is-open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+  .mobile-menu{
+    position:fixed;inset:0;z-index:75;
+    background:var(--bg);
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    opacity:0;pointer-events:none;
+    transition:opacity .35s ease;
+  }
+  .mobile-menu.is-open{opacity:1;pointer-events:auto;}
+  .mobile-menu ul{list-style:none;display:flex;flex-direction:column;gap:14px;text-align:center;align-items:center;}
+  .mobile-menu li{
+    opacity:0;transform:translateY(20px);
+    transition:opacity .4s ease,transform .4s ease;
+  }
+  .mobile-menu.is-open li{opacity:1;transform:translateY(0);}
+  .mobile-menu.is-open li:nth-child(1){transition-delay:.08s;}
+  .mobile-menu.is-open li:nth-child(2){transition-delay:.14s;}
+  .mobile-menu.is-open li:nth-child(3){transition-delay:.2s;}
+  .mobile-menu.is-open li:nth-child(4){transition-delay:.26s;}
+  .mobile-menu.is-open li:nth-child(5){transition-delay:.32s;}
+  .mobile-menu li a{
+    display:inline-block;font-size:28px;font-weight:800;
+    color:var(--text-primary);letter-spacing:-.01em;text-transform:uppercase;
+    padding:8px 22px;
+    transition:color .25s ease,transform .25s ease;
+    text-decoration:none;
+  }
+  .mobile-menu li a:active,
+  .mobile-menu li a.is-active{color:var(--accent);}
+
+  @media (max-width:768px){
+    .mobile-menu-btn{display:flex;}
+  }
+  @media (max-width:480px){
+    .mobile-menu li a{font-size:24px;padding:6px 18px;}
+    .mobile-menu ul{gap:10px;}
+  }
+
+  /* ---------- Side navigation (section quick jump) ---------- */
+  .side-nav{
+    position:fixed;right:28px;top:50%;transform:translateY(-50%);
+    z-index:60;display:flex;flex-direction:column;gap:18px;
+    mix-blend-mode:difference;
+  }
+  .side-nav a{
+    position:relative;display:flex;align-items:center;justify-content:flex-end;
+    height:14px;text-decoration:none;cursor:none;
+  }
+  .side-nav .dot{
+    display:block;width:8px;height:8px;border-radius:50%;
+    background:rgba(255,255,255,.4);
+    transition:width .3s ease,background .3s ease,border-radius .3s ease;
+  }
+  .side-nav a:hover .dot,
+  .side-nav a.is-active .dot{
+    background:var(--accent);width:26px;border-radius:99px;
+  }
+  .side-nav a::after{
+    content:attr(data-label);
+    position:absolute;right:18px;top:50%;transform:translateY(-50%) translateX(6px);
+    font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+    color:#fff;white-space:nowrap;opacity:0;pointer-events:none;
+    transition:opacity .25s ease,transform .25s ease;
+  }
+  .side-nav a:hover::after{opacity:1;transform:translateY(-50%) translateX(0);}
+  @media (max-width:768px){
+    .side-nav{display:none;}
+  }
+
   /* ---------- Top nav meta ---------- */
   .topbar{
     position:fixed;top:0;left:0;right:0;z-index:50;
@@ -216,7 +305,7 @@
   }
   .strength{
     background:var(--bg-card);border:1px solid var(--border);
-    padding:36px 32px;border-radius:2px;position:relative;
+    padding:36px 32px;border-radius:12px;position:relative;
     opacity:0;transform:translateY(30px);
     transition:border-color .35s ease,transform .35s ease;
   }
@@ -270,7 +359,7 @@
   .w-meta .role{display:block;color:var(--text-primary);font-weight:600;margin-bottom:4px;}
   .w-tag{
     font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--accent);border:1px solid var(--accent);padding:7px 10px;border-radius:2px;
+    color:var(--accent);border:1px solid var(--accent);padding:7px 10px;border-radius:12px;
     text-align:center;white-space:nowrap;
     justify-self:start;line-height:1;
   }
@@ -356,7 +445,7 @@
   .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
   .ff-item{
     background:var(--bg-card);border:1px solid var(--border);
-    padding:32px 28px;border-radius:2px;
+    padding:32px 28px;border-radius:12px;
     transition:border-color .35s ease,transform .35s ease;
   }
   .ff-item:hover{border-color:var(--accent);transform:translateY(-4px);}
@@ -370,8 +459,8 @@
   .ff-item p{font-size:14px;line-height:1.75;color:var(--text-secondary);}
 
   .feature-result{
-    margin-top:56px;background:var(--bg-alt);border:1px solid var(--border);
-    padding:48px 56px;display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:center;
+    margin-top:32px;background:var(--bg-alt);border:1px solid var(--border);border-radius:12px;
+    padding:40px 48px;display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:center;
   }
   .result-num{
     font-size:clamp(56px,7vw,96px);font-weight:900;color:var(--accent);
@@ -387,7 +476,7 @@
   .feature-gallery{margin-top:56px;display:flex;flex-direction:column;gap:16px;}
   .gallery-hero{
     width:100%;height:auto;display:block;
-    border:1px solid var(--border);border-radius:2px;
+    border:1px solid var(--border);border-radius:12px;
     background:#fff;
     transition:border-color .4s ease;
   }
@@ -395,7 +484,7 @@
   .gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
   .gallery-grid img{
     width:100%;height:auto;display:block;
-    border:1px solid var(--border);border-radius:2px;background:#fff;
+    border:1px solid var(--border);border-radius:12px;background:#fff;
     transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .35s ease;
     will-change:transform;
   }
@@ -405,7 +494,7 @@
     text-transform:uppercase;margin-top:14px;text-align:right;
   }
   @media (max-width:768px){
-    .gallery-grid{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:1fr;gap:12px;}
   }
 
   /* ---------- Project KPI strip (in-case) ---------- */
@@ -506,8 +595,15 @@
 
   /* ---------- Output Reel (video grid) ---------- */
   .reel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .reel-grid + .reel-hint{display:none;}
+  @media (max-width:768px){
+    .reel-grid + .reel-hint{
+      display:block;text-align:right;margin-top:8px;
+      font-size:10px;font-weight:600;letter-spacing:.2em;color:rgba(240,240,240,.45);text-transform:uppercase;
+    }
+  }
   .reel-item{
-    position:relative;aspect-ratio:9/16;overflow:hidden;border-radius:2px;
+    position:relative;aspect-ratio:9/16;overflow:hidden;border-radius:12px;
     border:1px solid var(--border);background:#000;
   }
   .reel-item video{
@@ -517,12 +613,33 @@
   .reel-item:hover video{transform:scale(1.04);}
   .reel-item .badge{
     position:absolute;top:12px;left:12px;z-index:2;
-    font-size:9px;font-weight:700;letter-spacing:.2em;color:var(--accent);
-    background:rgba(10,10,10,.55);backdrop-filter:blur(6px);
-    padding:6px 10px;border-radius:2px;
+    font-size:9px;font-weight:700;letter-spacing:.2em;color:#FFFFFF;
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(12px) saturate(140%);
+    -webkit-backdrop-filter:blur(12px) saturate(140%);
+    border:1px solid rgba(255,255,255,.22);
+    padding:6px 11px;border-radius:12px;
   }
   @media (max-width:768px){
-    .reel-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+    /* REEL — 모바일에선 가로 스와이프 슬라이드 */
+    .reel-grid{
+      display:flex;grid-template-columns:none;
+      overflow-x:auto;overflow-y:hidden;
+      scroll-snap-type:x mandatory;
+      gap:10px;padding:4px 24px 12px;
+      margin-left:-24px;margin-right:-24px;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+    }
+    .reel-grid::-webkit-scrollbar{display:none;}
+    .reel-item{
+      flex:0 0 70%;scroll-snap-align:center;
+      aspect-ratio:9/16;
+    }
+  }
+  @media (max-width:480px){
+    .reel-grid{padding:4px 18px 12px;margin-left:-18px;margin-right:-18px;}
+    .reel-item{flex:0 0 78%;}
   }
 
   /* ---------- Lookbook marquee (horizontal infinite) ---------- */
@@ -535,8 +652,8 @@
     display:flex;gap:14px;width:max-content;
     will-change:transform;
     transform:translate3d(0,0,0);
-    -webkit-mask-image:linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
-    mask-image:linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+    -webkit-mask-image:linear-gradient(to right, #000 0, #000 100%);
+    mask-image:linear-gradient(to right, #000 0, #000 100%);
   }
   .lookbook-nav{
     position:absolute;top:50%;transform:translateY(-50%);
@@ -550,6 +667,10 @@
     backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   }
   .lookbook:hover .lookbook-nav{opacity:1;pointer-events:auto;}
+  .hover-hint{
+    display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.18em;
+    color:var(--accent);text-transform:uppercase;
+  }
   .lookbook-nav:hover{
     background:var(--accent);color:#000;border-color:var(--accent);
   }
@@ -558,14 +679,14 @@
   .lookbook-nav.next{right:80px;}
   .lookbook-track img,
   .lookbook-track video{
-    height:420px;width:auto;display:block;border-radius:2px;
+    height:420px;width:auto;display:block;border-radius:12px;
     border:1px solid var(--border);flex-shrink:0;background:var(--bg-card);
   }
   .lookbook-track video{object-fit:cover;}
   @media (max-width:768px){
     .lookbook{margin-left:-24px;margin-right:-24px;}
     .lookbook-track img,
-    .lookbook-track video{height:280px;}
+    .lookbook-track video{height:440px;}
   }
 
   /* ---------- AI Asset Archive ---------- */
@@ -590,7 +711,7 @@
     display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
   }
   .ai-card{
-    aspect-ratio:1/1;position:relative;overflow:hidden;border-radius:2px;
+    aspect-ratio:1/1;position:relative;overflow:hidden;border-radius:12px;
     border:1px solid var(--border);background:var(--bg-card) center/cover no-repeat;
     padding:20px;display:flex;flex-direction:column;justify-content:space-between;
     transition:border-color .35s ease,transform .35s ease;
@@ -613,7 +734,13 @@
   }
   .ai-card:hover::after{opacity:1;}
   .ai-card .tag{
-    font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--accent);position:relative;z-index:1;
+    font-size:10px;font-weight:700;letter-spacing:.2em;color:#FFFFFF;
+    position:relative;z-index:1;align-self:flex-start;
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(12px) saturate(140%);
+    -webkit-backdrop-filter:blur(12px) saturate(140%);
+    border:1px solid rgba(255,255,255,.22);
+    padding:6px 11px;border-radius:12px;
   }
   .ai-card .title{
     font-size:16px;font-weight:800;color:var(--text-primary);letter-spacing:-.01em;
@@ -635,7 +762,44 @@
     .ai-archive-head .right{text-align:left;}
   }
 
-  /* ---------- EXPERIENCE ---------- */
+  /* ---------- RESUME (4-column condensed) ---------- */
+  .resume-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:56px;margin-top:64px;
+  }
+  .resume-col .rh{
+    font-size:13px;font-weight:700;color:var(--accent);
+    letter-spacing:.01em;margin-bottom:24px;
+    padding-bottom:14px;border-bottom:1px solid var(--border);
+  }
+  .resume-col ul{list-style:none;display:flex;flex-direction:column;gap:18px;}
+  .resume-col .item{display:flex;flex-direction:column;gap:4px;}
+  .resume-col .item .dt{
+    font-size:11px;color:var(--text-secondary);font-weight:600;letter-spacing:.04em;
+  }
+  .resume-col .item .org{
+    font-size:14px;color:var(--text-primary);font-weight:700;letter-spacing:-.005em;
+  }
+  .resume-col .item .role{
+    font-size:12.5px;color:var(--text-secondary);font-weight:400;
+  }
+  .resume-col.skills ul{gap:10px;}
+  .resume-col.skills li{
+    font-size:13.5px;color:var(--text-primary);font-weight:500;letter-spacing:-.005em;
+  }
+  .resume-col.skills li.sub{
+    color:var(--text-secondary);font-weight:400;font-size:13px;
+  }
+  @media (max-width:1180px) and (min-width:769px){
+    .resume-grid{grid-template-columns:repeat(2,1fr);gap:48px;}
+  }
+  @media (max-width:768px){
+    .resume-grid{grid-template-columns:repeat(2,1fr);gap:36px;margin-top:48px;}
+  }
+  @media (max-width:480px){
+    .resume-grid{grid-template-columns:1fr;gap:32px;}
+  }
+
+  /* ---------- EXPERIENCE (legacy timeline, kept for backward) ---------- */
   .timeline{display:flex;flex-direction:column;}
   .tl-row{
     display:grid;grid-template-columns:180px 1fr 1.2fr;gap:48px;
@@ -731,7 +895,8 @@
   /* ---------- Responsive ---------- */
   @media (max-width:768px){
     .wrap{padding:0 24px;}
-    .topbar{padding:18px 24px;}
+    .topbar{padding:14px 64px 14px 22px;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;min-height:60px;}
+    .topbar .left,.topbar .right{font-size:10px;letter-spacing:.16em;line-height:1.4;}
     .hero{padding:120px 24px 40px;}
     .hero-bottom{flex-direction:column;align-items:flex-start;gap:32px;}
     .section{padding:100px 0;}
@@ -753,6 +918,139 @@
     .contact-cta{flex-direction:column;align-items:flex-start;}
     .topbar{mix-blend-mode:normal;}
   }
+
+  /* ===== 태블릿 — 769px ~ 1180px ===== */
+  @media (max-width:1180px) and (min-width:769px){
+    .wrap{padding:0 40px;}
+    .topbar{padding:20px 40px;}
+    .hero{padding:120px 40px 48px;}
+    .section{padding:120px 0;}
+    .work-row{grid-template-columns:50px minmax(0,1fr) minmax(140px,180px) 100px 32px;gap:18px;padding:30px 14px;}
+    .feature-meta{gap:24px;}
+    .reel-grid{gap:12px;}
+    .ai-archive-grid{gap:12px;}
+    .lookbook{margin-left:-40px;margin-right:-40px;}
+    .lookbook-nav.prev{left:48px;}
+    .lookbook-nav.next{right:48px;}
+    .chapter{grid-template-columns:4fr 6fr;gap:32px;}
+  }
+
+  /* ===== 모바일 보강 — ≤ 768px (기존 룰 추가) ===== */
+  @media (max-width:768px){
+    .hero-name{font-size:clamp(48px,12vw,84px);}
+    .section-display{font-size:clamp(40px,10vw,64px);margin-bottom:36px;}
+    .feature-title{font-size:clamp(32px,8vw,48px);}
+    .feature-sub{font-size:15px;margin-bottom:32px;}
+    .chapter h4{font-size:clamp(24px,7vw,32px);}
+    .chapter{margin-top:64px;padding-top:32px;margin-bottom:24px;}
+    .strength{padding:26px 20px;}
+    .strength h3{font-size:20px;}
+    .strength .kr{font-size:12px;margin-bottom:14px;}
+    .ff-item{padding:24px 20px;}
+    .ff-item h5{font-size:16px;}
+    .ai-card{padding:16px;}
+    .ai-card .title{font-size:14px;line-height:1.25;}
+    .ai-card .meta{font-size:11px;}
+    .ai-card .meta strong{font-size:16px;}
+    .ai-archive-head .left h5{font-size:22px;}
+    .project-kpi{grid-template-columns:repeat(2,1fr);gap:18px;padding:20px 0;margin-top:24px;}
+    .project-kpi .num{font-size:clamp(26px,7vw,36px);}
+    .project-kpi .label{font-size:11px;line-height:1.45;}
+    .qr-row{gap:28px;margin-top:24px;}
+    .qr-card img{width:84px;height:84px;}
+    .qr-caption{font-size:13px;}
+    .marquee span{font-size:12px;padding:0 20px;letter-spacing:.13em;}
+    .marquee-track{padding:18px 0;}
+    .contact-display{font-size:clamp(48px,12vw,80px);}
+    .contact-pre{font-size:clamp(16px,4vw,20px);margin-bottom:32px;}
+    .magnetic-btn{padding:18px 26px;font-size:15px;}
+    footer{flex-direction:column;align-items:flex-start;gap:8px;font-size:10px;}
+    .lookbook-nav{width:46px;height:46px;font-size:18px;opacity:1;pointer-events:auto;}
+    .lookbook-nav.prev{left:30px;}
+    .lookbook-nav.next{right:30px;}
+    .hover-hint{display:none;}
+    .feature-overview{font-size:15.5px;line-height:1.85;}
+    .feature-features{margin-top:48px;}
+    .feature-features h4{margin-bottom:20px;}
+    .result-num{font-size:clamp(44px,14vw,64px);}
+    .result-text strong{font-size:16px;}
+    .featured-divider{flex-direction:column;align-items:flex-start;}
+    .section-label{font-size:10px;letter-spacing:.18em;}
+    .edu-title{margin-top:64px;}
+    .tl-role{font-size:18px;}
+    .tl-bullets li{font-size:13.5px;line-height:1.7;}
+    .about-quote{font-size:16px;padding:20px 0 20px 20px;}
+    .about-left .lead{font-size:20px;}
+    .hero-scroll{font-size:10px;}
+  }
+
+  /* ===== 작은 모바일 — ≤ 480px ===== */
+  @media (max-width:480px){
+    .wrap{padding:0 18px;}
+    .topbar{padding:14px 18px;}
+    .topbar .left,.topbar .right{font-size:9px;letter-spacing:.16em;}
+    .hero{padding:96px 18px 28px;}
+    .hero-name{font-size:clamp(40px,14vw,68px);}
+    .hero-bio{font-size:14px;line-height:1.75;}
+    .section{padding:72px 0;}
+    .section-display{font-size:clamp(34px,12vw,52px);margin-bottom:28px;}
+    .feature-title{font-size:clamp(26px,9vw,38px);}
+    .chapter h4{font-size:clamp(22px,8vw,28px);}
+    .work-row{grid-template-columns:32px minmax(0,1fr) 24px;gap:10px;padding:18px 6px;}
+    .w-title{font-size:16px;}
+    .w-num{font-size:11px;}
+    .project-kpi{grid-template-columns:1fr 1fr;gap:12px;padding:16px 0;}
+    .project-kpi .item{gap:5px;}
+    .project-kpi .num{font-size:clamp(22px,8vw,30px);}
+    .project-kpi .label{font-size:10.5px;}
+    .ai-archive-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+    .ai-card{aspect-ratio:1/1;padding:14px;}
+    .ai-card .tag{display:none;}
+    .ai-card .title{font-size:13px;line-height:1.25;}
+    .ai-card .meta{font-size:10.5px;}
+    .ai-card .meta strong{font-size:14px;}
+    .feature-meta{grid-template-columns:repeat(2,1fr);gap:14px;padding:20px 0;}
+    .feature-meta > div{font-size:13.5px;}
+    .feature-tags span{font-size:11px;padding:5px 10px;}
+    .feature-overview{font-size:14.5px;line-height:1.8;}
+    .feature-features h4{font-size:10px;}
+    .ff-item{padding:20px 18px;}
+    .ff-item h5{font-size:15px;}
+    .ff-item p{font-size:13px;}
+    .qr-row{gap:20px;justify-content:center;flex-wrap:wrap;}
+    .qr-card img{width:72px;height:72px;}
+    .qr-caption{font-size:12px;}
+    .feature-result{padding:22px 16px;gap:14px;}
+    .result-num{font-size:clamp(36px,12vw,52px);}
+    .result-text strong{font-size:15px;}
+    .marquee span{font-size:11px;padding:0 14px;letter-spacing:.11em;}
+    .marquee-track{padding:14px 0;}
+    .lookbook-track img,.lookbook-track video{height:380px;}
+    .lookbook-nav{width:38px;height:38px;font-size:15px;}
+    .lookbook-nav.prev{left:14px;}
+    .lookbook-nav.next{right:14px;}
+    .ai-archive-head{flex-direction:column;gap:12px;}
+    .ai-archive-head .left h5{font-size:20px;}
+    .ai-archive-head .right{font-size:13px;text-align:left;}
+    .ai-cta{flex-direction:column;align-items:flex-start;}
+    .strengths{margin-top:48px;gap:14px;}
+    .strength{padding:22px 18px;}
+    .strength h3{font-size:18px;}
+    .strength p{font-size:13.5px;}
+    .about-quote{font-size:15px;}
+    .about-left .lead{font-size:18px;}
+    .tl-bullets li{font-size:13px;}
+    .tl-role{font-size:17px;}
+    .edu-title{font-size:10px;}
+    .contact-display{font-size:clamp(36px,14vw,56px);}
+    .contact-pre{font-size:clamp(14px,4.5vw,17px);margin-bottom:28px;line-height:1.45;}
+    .magnetic-btn{padding:16px 22px;font-size:14px;gap:14px;}
+    .contact-meta a,.contact-meta span{font-size:13.5px;}
+    #contact{padding:120px 0 64px;}
+    footer{margin-top:80px;padding:24px 0;}
+    .featured-divider{margin-top:64px;padding-top:32px;}
+    .feature-case{margin-top:36px;padding-top:36px;}
+  }
 </style>
 </head>
 <body>
@@ -762,13 +1060,34 @@
 <div class="cursor-ring" id="cursorRing"></div>
 <div class="cursor-dot" id="cursorDot"></div>
 
+<button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="메뉴 열기">
+  <span></span><span></span><span></span>
+</button>
+<nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#resume">Resume</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<nav class="side-nav" id="sideNav">
+  <a href="#home"    data-label="Home"><span class="dot"></span></a>
+  <a href="#resume"  data-label="Resume"><span class="dot"></span></a>
+  <a href="#about"   data-label="About"><span class="dot"></span></a>
+  <a href="#works"   data-label="Works"><span class="dot"></span></a>
+  <a href="#contact" data-label="Contact"><span class="dot"></span></a>
+</nav>
+
 <header class="topbar">
   <div class="left">UI / UX DESIGNER</div>
   <div class="right">2026 — PORTFOLIO</div>
 </header>
 
 <!-- ============ HERO ============ -->
-<section class="hero">
+<section class="hero" id="home">
   <div></div>
   <h1 class="hero-name" id="heroName">
     <span class="line"><span>JUEUN</span></span>
@@ -799,10 +1118,99 @@
   </div>
 </div>
 
+<!-- ============ RESUME ============ -->
+<section id="resume" class="section">
+  <div class="wrap">
+    <div class="section-label">01 — RESUME</div>
+    <h2 class="section-display reveal-display">RESUME.</h2>
+
+    <div class="resume-grid">
+      <!-- Career -->
+      <div class="resume-col">
+        <h4 class="rh">Career</h4>
+        <ul>
+          <li class="item">
+            <span class="dt">2025.07 — Present</span>
+            <span class="org">보다플레이㈜</span>
+            <span class="role">UI · UX 책임 디자이너</span>
+          </li>
+          <li class="item">
+            <span class="dt">2022.11 — 2025.03</span>
+            <span class="org">커넥트코리아</span>
+            <span class="role">UI · UX 디자이너</span>
+          </li>
+          <li class="item">
+            <span class="dt">2020.12 — 2021.08</span>
+            <span class="org">더직</span>
+            <span class="role">영상편집 · 그래픽 디자이너</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Academic -->
+      <div class="resume-col">
+        <h4 class="rh">Academic</h4>
+        <ul>
+          <li class="item">
+            <span class="dt">2016.03 — 2021.02</span>
+            <span class="org">동양대학교</span>
+            <span class="role">시각디자인 학사</span>
+          </li>
+          <li class="item">
+            <span class="dt">2022.04 — 2022.09</span>
+            <span class="org">그린아카데미</span>
+            <span class="role">웹기획 · UI / UX 직무</span>
+          </li>
+          <li class="item">
+            <span class="dt">2013.03 — 2016.02</span>
+            <span class="org">울산중앙여자고등학교</span>
+            <span class="role">문과 졸업</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Skill -->
+      <div class="resume-col skills">
+        <h4 class="rh">Skill</h4>
+        <ul>
+          <li>UI / UX 디자인</li>
+          <li>디자인 시스템</li>
+          <li>와이어프레임 · 프로토타입</li>
+          <li>반응형 웹</li>
+          <li>iOS · Android 모바일 UI</li>
+          <li>생성형 AI 콘텐츠</li>
+          <li>프롬프트 템플릿</li>
+          <li>브랜드 · 마케팅 디자인</li>
+          <li>박람회 · 인쇄 디자인</li>
+          <li>영상 편집</li>
+        </ul>
+      </div>
+
+      <!-- Tool -->
+      <div class="resume-col skills">
+        <h4 class="rh">Tool</h4>
+        <ul>
+          <li>Figma</li>
+          <li>Photoshop</li>
+          <li>Illustrator</li>
+          <li>HTML5 / CSS3</li>
+          <li>JavaScript / jQuery</li>
+          <li>AI Nano Banana Pro</li>
+          <li>AI Kling</li>
+          <li>AI Veo3</li>
+          <li>AI Seedream</li>
+          <li>AI ChatGPT</li>
+          <li>AI Claude</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ ABOUT ============ -->
 <section id="about" class="section">
   <div class="wrap">
-    <div class="section-label">01 — ABOUT</div>
+    <div class="section-label">02 — ABOUT</div>
     <h2 class="section-display reveal-display">ABOUT ME.</h2>
 
     <div class="about-grid">
@@ -829,8 +1237,9 @@
           이미지·영상 제작 및 프롬프트 템플릿 설계까지 함께 수행하고 있습니다.
         </p>
         <p class="reveal-body">
-          Figma를 중심으로 Photoshop, Illustrator를 활용하며, HTML·CSS 구조에 대한 이해를 바탕으로
-          개발팀과 원활하게 협업합니다. 또한 박람회 부스, 배너, 리플렛 등 오프라인 홍보물과 마케팅 그래픽 디자인까지 수행했습니다.
+          <strong>Figma</strong>를 중심으로 <strong>Photoshop · Illustrator</strong>를 활용하며,
+          <strong>HTML · CSS 구조</strong>에 대한 이해를 바탕으로 개발팀과 원활하게 협업합니다.
+          또한 박람회 부스, 배너, 리플렛 등 오프라인 홍보물과 마케팅 그래픽 디자인까지 수행했습니다.
         </p>
       </div>
     </div>
@@ -867,7 +1276,7 @@
 <!-- ============ WORKS ============ -->
 <section id="works" class="section">
   <div class="wrap">
-    <div class="section-label">02 — SELECTED WORKS</div>
+    <div class="section-label">03 — SELECTED WORKS</div>
     <h2 class="section-display reveal-display">WORKS.</h2>
 
     <div class="works-list">
@@ -934,7 +1343,7 @@
         <div><span class="label">PERIOD</span>2025.07 — Present</div>
         <div><span class="label">ROLE</span>책임 디자이너 · UX 구조 설계</div>
         <div><span class="label">TOOLS</span>Figma · Nano Banana Pro · Kling · Veo3</div>
-        <div><span class="label">TYPE</span>B2C · Web · AI Platform</div>
+        <div><span class="label">TYPE</span>B2C · B2B · Web · AI Platform</div>
       </div>
 
       <p class="feature-overview">
@@ -1002,7 +1411,7 @@
       <div class="chapter">
         <div>
           <span class="idx">CHAPTER 02<span class="total"> / 04</span> — OUTPUT REEL</span>
-          <h4>보다파크으로 만든<br/>실제 결과 영상</h4>
+          <h4>보다파크로 만든<br/>실제 결과 영상</h4>
         </div>
         <p class="desc">
           입력 → 생성 → 다운로드 흐름을 직접 테스트하며 만든 <strong>광고·인플루언서 클립 샘플</strong>입니다.
@@ -1019,6 +1428,7 @@
         <div class="reel-item"><span class="badge">REEL 04</span>
           <video src="images/reel-04.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
       </div>
+      <p class="reel-hint">← 스와이프하여 더 보기 →</p>
 
       <!-- ─── CHAPTER 03 — ASSET ARCHIVE ─── -->
       <div class="chapter">
@@ -1078,7 +1488,7 @@
         <p class="desc">
           인물 · 의상 · 배경 · 무드를 <strong>프롬프트로 직접 설계해</strong> 제작한 AI 비주얼 작업물입니다.
           광고 · 시연 · 홍보용 시각 자산으로 확장 가능한 형태로 아카이빙하고 있습니다.
-          <br/><span style="display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;">Hover &amp; use ← → to browse</span>
+          <br/><span class="hover-hint">Hover &amp; use ← → to browse</span>
         </p>
       </div>
       <div class="lookbook" id="lookbook">
@@ -1289,102 +1699,6 @@
   </div>
 </section>
 
-<!-- ============ EXPERIENCE ============ -->
-<section id="experience" class="section">
-  <div class="wrap">
-    <div class="section-label">03 — EXPERIENCE</div>
-    <h2 class="section-display reveal-display">EXPERIENCE.</h2>
-
-    <div class="timeline">
-      <div class="tl-row">
-        <div class="tl-date">
-          2025.07 — Present
-          <span class="span">1Y · 책임</span>
-        </div>
-        <div class="tl-role">
-          UI/UX Designer · 책임
-          <span class="org">보다플레이㈜ — 보다파크 / 보다파크</span>
-        </div>
-        <ul class="tl-bullets">
-          <li>회원 수 37,417명 규모 생성형 AI 콘텐츠 플랫폼 UI/UX 개선 — 핵심 사용 흐름 30+ 개선안 도출</li>
-          <li>프롬프트 입력 → AI 결과 생성 → 미리보기 → 다운로드 핵심 플로우 전체 설계</li>
-          <li>입력·결과 확인 단계 단순화로 AI 기능 사용 진입장벽 약 30% 완화</li>
-          <li>Nano Banana Pro · Kling · Veo3로 이미지 300+, 영상 200+, 프롬프트 템플릿 50+ 제작</li>
-          <li>박람회 부스·배너·리플렛·QR 안내물 등 오프라인 홍보물 15+ 디자인</li>
-        </ul>
-      </div>
-
-      <div class="tl-row">
-        <div class="tl-date">
-          2022.11 — 2025.03
-          <span class="span">2Y 5M · 팀원</span>
-        </div>
-        <div class="tl-role">
-          UI/UX Designer
-          <span class="org">커넥트코리아 — 플랜홈 / 코코수리 / CNINSIDER</span>
-        </div>
-        <ul class="tl-bullets">
-          <li>코코수리 디자인 시스템 정리·문서화 — 버튼 클릭률 12% 증가, UI 일관성 강화</li>
-          <li>플랜홈 디자인 가이드라인 구축 (Figma) — 디자인 재사용성 35% 향상</li>
-          <li>플랜홈 반응형 웹 + iOS/Android 네이티브 앱 UI 적용 및 인터랙션 설계</li>
-          <li>자회사 모바일 플랫폼 UI 최적화 — 컴포넌트 재사용률 40% 향상, HIG·Material 준수</li>
-          <li>커넥트코리아 공식 홈페이지 가이드라인 구축 — 디자인 시스템 적용률 90% 달성</li>
-        </ul>
-      </div>
-
-      <div class="tl-row">
-        <div class="tl-date">
-          2020.12 — 2021.08
-          <span class="span">9M · 사원</span>
-        </div>
-        <div class="tl-role">
-          Video Editor & Graphic Designer
-          <span class="org">더직 — 영상디자인</span>
-        </div>
-        <ul class="tl-bullets">
-          <li>'살집채널' 운영 — 구독자 5만명 달성</li>
-          <li>수도권 200+ 부동산 유튜브 채널 운영 대행 및 콘텐츠 디자인</li>
-          <li>썸네일·채널아트·재개발 지도·명함 등 브랜딩 그래픽 제작</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="edu-title">EDUCATION</div>
-    <div class="timeline">
-      <div class="tl-row">
-        <div class="tl-date">
-          2016.03 — 2021.02
-          <span class="span">4YR · BACHELOR</span>
-        </div>
-        <div class="tl-role">
-          시각디자인 학사
-          <span class="org">동양대학교 · 학점 3.5 / 4.5</span>
-        </div>
-        <ul class="tl-bullets">
-          <li>주전공 Visual Design — 졸업</li>
-          <li>타이포그래피·편집·브랜딩·디지털 디자인 전반 학습</li>
-        </ul>
-      </div>
-
-      <div class="tl-row">
-        <div class="tl-date">
-          2022.04 — 2022.09
-          <span class="span">6M · 교육 이수</span>
-        </div>
-        <div class="tl-role">
-          웹기획 · UI/UX 디자인 과정
-          <span class="org">그린아카데미 — 직무 교육</span>
-        </div>
-        <ul class="tl-bullets">
-          <li>웹 기획 — 기초 데이터 수집 · 프로토타입 · 사용성 테스트</li>
-          <li>HTML5·CSS3·JavaScript·jQuery·AJAX 기반 표준화된 마크업 기법</li>
-          <li>접근성 고려 기업형 웹 · 모바일 웹 · 반응형 웹 프로젝트 실무 학습</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ CONTACT ============ -->
 <section id="contact" class="section">
   <div class="wrap">
@@ -1450,6 +1764,49 @@
     requestAnimationFrame(loop);
   }
   loop();
+  /* ---------- Mobile menu toggle ---------- */
+  (function(){
+    const btn=document.getElementById('mobileMenuBtn');
+    const menu=document.getElementById('mobileMenu');
+    if(!btn||!menu) return;
+    function close(){
+      btn.classList.remove('is-open');
+      menu.classList.remove('is-open');
+      menu.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+    }
+    function open(){
+      btn.classList.add('is-open');
+      menu.classList.add('is-open');
+      menu.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+    }
+    btn.addEventListener('click',()=>{
+      menu.classList.contains('is-open')?close():open();
+    });
+    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape') close(); });
+  })();
+
+  /* ---------- Side nav scrollspy ---------- */
+  (function(){
+    const navLinks=document.querySelectorAll('.side-nav a');
+    if(!navLinks.length) return;
+    const sections=Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function spy(){
+      const y=window.scrollY+window.innerHeight*0.35;
+      let active=null;
+      sections.forEach(sec=>{ if(sec.offsetTop<=y) active=sec.id; });
+      navLinks.forEach(a=>{
+        if(a.getAttribute('href')==='#'+active) a.classList.add('is-active');
+        else a.classList.remove('is-active');
+      });
+    }
+    window.addEventListener('scroll',spy,{passive:true});
+    window.addEventListener('resize',spy);
+    spy();
+  })();
+
   const hoverables=document.querySelectorAll('a,button,.work-row,.strength,.magnetic-btn');
   hoverables.forEach(el=>{
     el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
