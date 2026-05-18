@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JUEUN KIM — UI/UX Designer Portfolio</title>
+<meta name="description" content="UI/UX Designer Jueun Kim — 사용자의 망설임을 줄이고 사용 흐름을 설계하는 디자이너. 생성형 AI 플랫폼, 디자인 시스템, 반응형 UI 설계." />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<style>
+  @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+
+  :root{
+    --bg:#0A0A0A;
+    --bg-alt:#111111;
+    --bg-card:#161616;
+    --text-primary:#F0F0F0;
+    --text-secondary:#888888;
+    --accent:#FF6B1A;
+    --border:#222222;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{background:var(--bg);color:var(--text-primary);}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"Pretendard",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    font-weight:400;
+    line-height:1.9;
+    overflow-x:hidden;
+    cursor:none;
+    -webkit-font-smoothing:antialiased;
+    word-break:keep-all;
+    overflow-wrap:break-word;
+    text-wrap:pretty;
+  }
+  /* 헤딩 — 균형 잡힌 줄바꿈 (마지막 줄 고아 단어 방지) */
+  h1,h2,h3,h4,h5,h6,
+  .section-display,.hero-name,.feature-title,.contact-display,
+  .chapter h4,.kpi-label,.tl-role,.about-quote,.about-left .lead{
+    text-wrap:balance;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;cursor:none;border:none;background:none;color:inherit;}
+  ::selection{background:var(--accent);color:#000;}
+
+  /* ---------- Scroll progress bar ---------- */
+  .progress{
+    position:fixed;top:0;left:0;width:0%;height:2px;
+    background:var(--accent);z-index:9999;
+    transition:width .08s linear;
+  }
+
+  /* ---------- Custom cursor ---------- */
+  .cursor-dot,.cursor-ring{
+    position:fixed;top:0;left:0;pointer-events:none;z-index:9998;
+    transform:translate(-50%,-50%);
+    will-change:transform;
+  }
+  .cursor-dot{
+    width:6px;height:6px;background:var(--accent);border-radius:50%;
+    transition:background .25s ease;
+  }
+  .cursor-ring{
+    width:36px;height:36px;border:1.5px solid rgba(255,107,26,.5);border-radius:50%;
+    transition:width .25s ease,height .25s ease,background .25s ease,border-color .25s ease;
+  }
+  body.cursor-hover .cursor-ring{
+    width:52px;height:52px;background:var(--accent);border-color:var(--accent);
+  }
+  body.cursor-hover .cursor-dot{background:#000;}
+  @media (hover:none),(max-width:768px){
+    body{cursor:auto;}
+    .cursor-dot,.cursor-ring{display:none;}
+    button,a{cursor:pointer;}
+  }
+
+  /* ---------- Ghost grid overlay ---------- */
+  .grid-overlay{
+    position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.03;
+    background-image:
+      repeating-linear-gradient(0deg,#fff 0,#fff 1px,transparent 1px,transparent 80px),
+      repeating-linear-gradient(90deg,#fff 0,#fff 1px,transparent 1px,transparent 80px);
+  }
+
+  /* ---------- Layout ---------- */
+  .wrap{max-width:1440px;margin:0 auto;padding:0 64px;position:relative;z-index:2;}
+  section{position:relative;z-index:2;}
+
+  /* ---------- Top nav meta ---------- */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:28px 64px;
+    mix-blend-mode:difference;
+  }
+  .topbar .left{
+    font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);
+  }
+  .topbar .right{
+    font-size:11px;font-weight:700;letter-spacing:.18em;color:#fff;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;
+    padding:140px 64px 56px;position:relative;
+  }
+  .hero-name{
+    font-size:clamp(64px,11vw,140px);
+    font-weight:900;
+    line-height:.88;
+    letter-spacing:-.05em;
+    text-transform:uppercase;
+  }
+  .hero-name .line{
+    display:block;overflow:hidden;
+  }
+  .hero-name .line span{
+    display:inline-block;
+    clip-path:inset(0 0 100% 0);
+    -webkit-clip-path:inset(0 0 100% 0);
+    will-change:clip-path;
+  }
+  .hero-name .accent{color:var(--accent);}
+  .hero-bottom{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:48px;margin-top:48px;
+  }
+  .hero-bio{
+    max-width:760px;color:var(--text-secondary);
+    font-size:15px;line-height:1.85;
+    opacity:0;transform:translateY(20px);
+  }
+  .hero-bio strong{color:var(--text-primary);font-weight:600;}
+  .hero-scroll{
+    font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--text-primary);display:flex;align-items:center;gap:10px;
+    opacity:0;transform:translateY(20px);
+  }
+  .hero-scroll .arrow{
+    display:inline-block;width:1px;height:32px;background:var(--accent);
+    position:relative;
+  }
+  .hero-scroll .arrow::after{
+    content:"";position:absolute;left:-3px;bottom:0;
+    width:7px;height:7px;border-right:1px solid var(--accent);border-bottom:1px solid var(--accent);
+    transform:rotate(45deg);
+  }
+
+  /* ---------- Marquee ---------- */
+  .marquee{
+    background:var(--accent);color:#000;
+    overflow:hidden;white-space:nowrap;
+    border-top:1px solid var(--accent);
+    border-bottom:1px solid var(--accent);
+  }
+  .marquee-track{
+    display:inline-flex;animation:marquee 28s linear infinite;
+    padding:22px 0;
+  }
+  .marquee span{
+    font-size:14px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+    padding:0 28px;
+  }
+  @keyframes marquee{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
+  /* ---------- Section common ---------- */
+  .section{padding:160px 0;}
+  .section-label{
+    font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:32px;
+  }
+  .section-display{
+    font-size:clamp(56px,8vw,100px);
+    font-weight:900;line-height:.95;letter-spacing:-.04em;
+    text-transform:uppercase;margin-bottom:72px;
+    opacity:0;transform:translateY(60px);
+    word-break:keep-all;
+    white-space:nowrap;
+  }
+  @media (max-width:768px){
+    .section-display{white-space:normal;font-size:clamp(48px,12vw,72px);}
+  }
+
+  /* ---------- ABOUT ---------- */
+  #about .about-grid{
+    display:grid;grid-template-columns:5fr 7fr;gap:80px;align-items:start;
+  }
+  .about-left .lead{
+    font-size:24px;font-weight:600;line-height:1.55;color:var(--text-primary);
+    letter-spacing:-.02em;
+    opacity:0;transform:translateY(30px);
+  }
+  .about-left .lead em{
+    font-style:normal;color:var(--accent);font-weight:700;
+  }
+  .about-quote{
+    margin-top:56px;padding:28px 0 28px 28px;
+    border-left:2px solid var(--accent);
+    font-size:18px;line-height:1.65;color:var(--text-primary);font-weight:500;
+    opacity:0;transform:translateY(30px);
+  }
+  .about-right p{
+    color:var(--text-secondary);font-size:16px;line-height:1.9;margin-bottom:24px;
+    opacity:0;transform:translateY(30px);
+  }
+  .about-right p strong{color:var(--text-primary);font-weight:600;}
+
+  .strengths{
+    margin-top:96px;
+    display:grid;grid-template-columns:repeat(2,1fr);gap:24px;
+  }
+  .strength{
+    background:var(--bg-card);border:1px solid var(--border);
+    padding:36px 32px;border-radius:2px;position:relative;
+    opacity:0;transform:translateY(30px);
+    transition:border-color .35s ease,transform .35s ease;
+  }
+  .strength:hover{border-color:var(--accent);transform:translateY(-4px);}
+  .strength .num{
+    font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--accent);
+    margin-bottom:20px;display:block;
+  }
+  .strength h3{
+    font-size:22px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px;
+    color:var(--text-primary);
+  }
+  .strength .kr{
+    display:block;font-size:13px;font-weight:500;color:var(--text-secondary);
+    letter-spacing:.02em;margin-bottom:18px;
+  }
+  .strength p{color:var(--text-secondary);font-size:14.5px;line-height:1.75;}
+
+  /* ---------- WORKS ---------- */
+  #works .works-list{border-top:1px solid var(--border);}
+  .work-row{
+    position:relative;display:grid;
+    grid-template-columns:60px minmax(0,1fr) minmax(180px,220px) 110px 40px;
+    gap:28px;align-items:center;padding:36px 24px;
+    border-bottom:1px solid var(--border);
+    overflow:hidden;
+    opacity:0;transform:translateX(-20px);
+    cursor:none;
+  }
+  .work-row::before{
+    content:"";position:absolute;inset:0;background:var(--accent);
+    transform:scaleX(0);transform-origin:left center;
+    transition:transform .45s cubic-bezier(.65,0,.35,1);
+    z-index:0;
+  }
+  .work-row:hover::before{transform:scaleX(1);}
+  .work-row > *{position:relative;z-index:1;transition:color .3s ease;}
+  .work-row:hover > *{color:#000 !important;}
+  .work-row:hover .w-num,
+  .work-row:hover .w-tag{color:#000 !important;}
+  .work-row:hover .w-tag{border-color:#000;}
+
+  .w-num{
+    font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--accent);
+  }
+  .w-title{
+    font-size:clamp(22px,2.4vw,32px);font-weight:800;letter-spacing:-.02em;
+    color:var(--text-primary);
+  }
+  .w-meta{color:var(--text-secondary);font-size:13px;line-height:1.6;}
+  .w-meta .role{display:block;color:var(--text-primary);font-weight:600;margin-bottom:4px;}
+  .w-tag{
+    font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);border:1px solid var(--accent);padding:7px 10px;border-radius:2px;
+    text-align:center;white-space:nowrap;
+    justify-self:start;line-height:1;
+  }
+  .w-arrow{
+    font-size:28px;color:var(--text-primary);justify-self:end;line-height:1;
+  }
+
+  /* KPI spotlight */
+  .kpi{
+    margin-top:120px;
+    background:var(--bg-alt);border:1px solid var(--border);
+    padding:80px 56px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:48px;
+  }
+  .kpi-item{text-align:left;}
+  .kpi-num{
+    font-size:clamp(48px,5vw,72px);font-weight:900;color:var(--accent);
+    line-height:1;letter-spacing:-.04em;
+    font-variant-numeric:tabular-nums;
+  }
+  .kpi-num .unit{font-size:.5em;color:var(--accent);margin-left:4px;font-weight:800;}
+  .kpi-label{
+    margin-top:16px;font-size:13px;font-weight:600;
+    color:var(--text-secondary);line-height:1.6;letter-spacing:.02em;
+  }
+
+  /* ---------- FEATURED CASES ---------- */
+  .featured-divider{
+    margin-top:160px;padding-top:64px;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;align-items:baseline;
+    gap:32px;flex-wrap:wrap;margin-bottom:24px;
+  }
+  .featured-divider .featured-label{
+    font-size:11px;font-weight:700;letter-spacing:.22em;color:var(--accent);
+    text-transform:uppercase;
+  }
+  .featured-divider .featured-intro{
+    color:var(--text-secondary);font-size:14px;max-width:520px;text-align:right;
+  }
+  .feature-case{
+    margin-top:80px;padding-top:64px;border-top:1px solid var(--border);
+    opacity:0;transform:translateY(40px);
+  }
+  .feature-num{
+    font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--accent);
+    display:inline-block;margin-bottom:24px;
+  }
+  .feature-title{
+    font-size:clamp(40px,5vw,64px);font-weight:900;letter-spacing:-.03em;
+    line-height:1;margin-bottom:14px;color:var(--text-primary);
+  }
+  .feature-sub{
+    font-size:17px;color:var(--text-secondary);font-weight:500;margin-bottom:48px;
+  }
+  .feature-meta{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:32px;
+    padding:28px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  }
+  .feature-meta > div{
+    display:flex;flex-direction:column;gap:8px;
+    font-size:14.5px;color:var(--text-primary);font-weight:500;
+  }
+  .feature-meta .label{
+    font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;
+  }
+  .feature-overview{
+    margin-top:48px;font-size:16px;line-height:1.9;color:var(--text-secondary);max-width:880px;
+  }
+  .feature-overview strong{color:var(--text-primary);font-weight:600;}
+  .feature-tags{margin-top:28px;display:flex;flex-wrap:wrap;gap:8px;}
+  .feature-tags span{
+    font-size:12px;font-weight:600;color:var(--text-primary);letter-spacing:.02em;
+    border:1px solid var(--border);padding:7px 14px;border-radius:999px;
+    background:var(--bg-card);transition:border-color .25s ease,color .25s ease;
+  }
+  .feature-tags span:hover{border-color:var(--accent);color:var(--accent);}
+
+  .feature-features{margin-top:64px;}
+  .feature-features h4{
+    font-size:11px;font-weight:700;letter-spacing:.22em;color:var(--accent);
+    text-transform:uppercase;margin-bottom:24px;
+  }
+  .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .ff-item{
+    background:var(--bg-card);border:1px solid var(--border);
+    padding:32px 28px;border-radius:2px;
+    transition:border-color .35s ease,transform .35s ease;
+  }
+  .ff-item:hover{border-color:var(--accent);transform:translateY(-4px);}
+  .ff-item .ff-num{
+    font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--accent);
+    display:block;margin-bottom:16px;
+  }
+  .ff-item h5{
+    font-size:18px;font-weight:800;color:var(--text-primary);margin-bottom:10px;letter-spacing:-.01em;
+  }
+  .ff-item p{font-size:14px;line-height:1.75;color:var(--text-secondary);}
+
+  .feature-result{
+    margin-top:56px;background:var(--bg-alt);border:1px solid var(--border);
+    padding:48px 56px;display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:center;
+  }
+  .result-num{
+    font-size:clamp(56px,7vw,96px);font-weight:900;color:var(--accent);
+    line-height:1;letter-spacing:-.04em;white-space:nowrap;
+  }
+  .result-text strong{
+    display:block;font-size:18px;font-weight:700;color:var(--text-primary);
+    margin-bottom:10px;letter-spacing:-.01em;
+  }
+  .result-text{font-size:14.5px;color:var(--text-secondary);line-height:1.75;}
+
+  /* ---------- Feature gallery ---------- */
+  .feature-gallery{margin-top:56px;display:flex;flex-direction:column;gap:16px;}
+  .gallery-hero{
+    width:100%;height:auto;display:block;
+    border:1px solid var(--border);border-radius:2px;
+    background:#fff;
+    transition:border-color .4s ease;
+  }
+  .gallery-hero:hover{border-color:var(--accent);}
+  .gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  .gallery-grid img{
+    width:100%;height:auto;display:block;
+    border:1px solid var(--border);border-radius:2px;background:#fff;
+    transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .35s ease;
+    will-change:transform;
+  }
+  .gallery-grid img:hover{transform:translateY(-4px);border-color:var(--accent);}
+  .gallery-caption{
+    font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--text-secondary);
+    text-transform:uppercase;margin-top:14px;text-align:right;
+  }
+  @media (max-width:768px){
+    .gallery-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Project KPI strip (in-case) ---------- */
+  .project-kpi{
+    margin-top:32px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+    padding:28px 0;
+    border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  }
+  .project-kpi .item{display:flex;flex-direction:column;gap:8px;}
+  .project-kpi .num{
+    font-size:clamp(32px,3.4vw,44px);font-weight:900;color:var(--accent);
+    line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums;
+  }
+  .project-kpi .num .u{font-size:.5em;font-weight:800;margin-left:3px;letter-spacing:0;}
+  .project-kpi .label{
+    font-size:12px;color:var(--text-secondary);font-weight:500;line-height:1.55;
+  }
+  @media (max-width:768px){
+    .project-kpi{grid-template-columns:repeat(2,1fr);gap:20px;padding:20px 0;}
+  }
+
+  /* ---------- QR card row (minimal) ---------- */
+  .qr-row{
+    margin-top:32px;display:flex;gap:36px;flex-wrap:wrap;align-items:flex-start;
+  }
+  .qr-card{
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    background:none;border:none;padding:0;
+    transition:transform .3s ease;
+    cursor:none;
+  }
+  .qr-card:hover{transform:translateY(-3px);}
+  .qr-card img{
+    width:96px;height:96px;display:block;
+    transition:opacity .25s ease;
+  }
+  .qr-card:hover img{opacity:.85;}
+  .qr-caption{
+    font-size:14px;font-weight:500;color:#FFFFFF;letter-spacing:-.005em;
+    transition:opacity .25s ease;
+  }
+  .qr-card:hover .qr-caption{opacity:.85;}
+
+  /* ---------- Live CTA inside feature-case ---------- */
+  .live-cta-row{
+    margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;
+  }
+  .live-cta{
+    display:inline-flex;align-items:center;gap:12px;
+    padding:14px 22px;border:1px solid var(--accent);border-radius:999px;
+    color:var(--accent);font-size:13px;font-weight:700;letter-spacing:.05em;
+    text-transform:uppercase;
+    transition:background .3s ease,color .3s ease,transform .25s ease;
+  }
+  .live-cta:hover{background:var(--accent);color:#000;transform:translateY(-2px);}
+  .live-cta .dot{
+    width:8px;height:8px;border-radius:50%;background:var(--accent);
+    box-shadow:0 0 0 4px rgba(255,107,26,.18);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  .live-cta:hover .dot{background:#000;box-shadow:0 0 0 4px rgba(0,0,0,.15);}
+  @keyframes pulse{
+    0%,100%{opacity:1;transform:scale(1);}
+    50%{opacity:.6;transform:scale(1.25);}
+  }
+  .live-cta.ghost{
+    border-color:var(--border);color:var(--text-primary);
+  }
+  .live-cta.ghost:hover{background:var(--bg-card);color:var(--accent);border-color:var(--accent);transform:translateY(-2px);}
+  .live-cta.ghost .dot{background:var(--text-secondary);box-shadow:none;animation:none;}
+  .live-cta.ghost:hover .dot{background:var(--accent);}
+
+  /* ---------- Chapter divider (designer-style page marker) ---------- */
+  .chapter{
+    margin-top:96px;padding-top:48px;border-top:1px solid var(--border);
+    display:grid;grid-template-columns:5fr 7fr;gap:48px;align-items:end;
+    margin-bottom:36px;
+  }
+  .chapter .idx{
+    font-size:11px;font-weight:700;letter-spacing:.25em;color:var(--accent);
+    text-transform:uppercase;display:block;
+  }
+  .chapter .idx .total{color:var(--text-secondary);}
+  .chapter h4{
+    font-size:clamp(28px,3.4vw,42px);font-weight:900;color:var(--text-primary);
+    letter-spacing:-.02em;line-height:1.12;margin-top:14px;
+  }
+  .chapter .desc{
+    font-size:14.5px;color:var(--text-secondary);line-height:1.8;max-width:560px;
+    justify-self:end;text-align:right;
+  }
+  .chapter .desc strong{color:var(--text-primary);font-weight:600;}
+  @media (max-width:768px){
+    .chapter{grid-template-columns:1fr;gap:18px;margin-top:64px;padding-top:32px;}
+    .chapter .desc{text-align:left;justify-self:start;}
+  }
+
+  /* ---------- Output Reel (video grid) ---------- */
+  .reel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .reel-item{
+    position:relative;aspect-ratio:9/16;overflow:hidden;border-radius:2px;
+    border:1px solid var(--border);background:#000;
+  }
+  .reel-item video{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .6s ease;
+  }
+  .reel-item:hover video{transform:scale(1.04);}
+  .reel-item .badge{
+    position:absolute;top:12px;left:12px;z-index:2;
+    font-size:9px;font-weight:700;letter-spacing:.2em;color:var(--accent);
+    background:rgba(10,10,10,.55);backdrop-filter:blur(6px);
+    padding:6px 10px;border-radius:2px;
+  }
+  @media (max-width:768px){
+    .reel-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+  }
+
+  /* ---------- Lookbook marquee (horizontal infinite) ---------- */
+  .lookbook{
+    position:relative;overflow:hidden;
+    margin-left:-64px;margin-right:-64px;
+    padding:0;
+  }
+  .lookbook-track{
+    display:flex;gap:14px;width:max-content;
+    will-change:transform;
+    transform:translate3d(0,0,0);
+    -webkit-mask-image:linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+    mask-image:linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+  }
+  .lookbook-nav{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:52px;height:52px;border-radius:50%;
+    background:rgba(10,10,10,.65);border:1px solid rgba(240,240,240,.15);
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:20px;font-weight:700;line-height:1;
+    cursor:none;z-index:5;
+    opacity:0;pointer-events:none;
+    transition:opacity .35s ease, background .25s ease, border-color .25s ease, color .25s ease;
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  }
+  .lookbook:hover .lookbook-nav{opacity:1;pointer-events:auto;}
+  .lookbook-nav:hover{
+    background:var(--accent);color:#000;border-color:var(--accent);
+  }
+  .lookbook-nav:active{transform:translateY(-50%) scale(.94);}
+  .lookbook-nav.prev{left:80px;}
+  .lookbook-nav.next{right:80px;}
+  .lookbook-track img,
+  .lookbook-track video{
+    height:420px;width:auto;display:block;border-radius:2px;
+    border:1px solid var(--border);flex-shrink:0;background:var(--bg-card);
+  }
+  .lookbook-track video{object-fit:cover;}
+  @media (max-width:768px){
+    .lookbook{margin-left:-24px;margin-right:-24px;}
+    .lookbook-track img,
+    .lookbook-track video{height:280px;}
+  }
+
+  /* ---------- AI Asset Archive ---------- */
+  .ai-archive{
+    margin-top:72px;padding:48px 0;border-top:1px solid var(--border);
+  }
+  .ai-archive-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:32px;flex-wrap:wrap;margin-bottom:36px;
+  }
+  .ai-archive-head .left h4{
+    font-size:11px;font-weight:700;letter-spacing:.22em;color:var(--accent);
+    text-transform:uppercase;margin-bottom:14px;
+  }
+  .ai-archive-head .left h5{
+    font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-.02em;line-height:1.25;
+  }
+  .ai-archive-head .right{
+    color:var(--text-secondary);font-size:14px;line-height:1.7;max-width:420px;text-align:right;
+  }
+  .ai-archive-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+  }
+  .ai-card{
+    aspect-ratio:1/1;position:relative;overflow:hidden;border-radius:2px;
+    border:1px solid var(--border);background:var(--bg-card) center/cover no-repeat;
+    padding:20px;display:flex;flex-direction:column;justify-content:space-between;
+    transition:border-color .35s ease,transform .35s ease;
+    cursor:none;
+  }
+  .ai-card::before{
+    content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(180deg,rgba(10,10,10,.78) 0%,rgba(10,10,10,.45) 45%,rgba(10,10,10,.92) 100%);
+    transition:background .35s ease;
+  }
+  .ai-card::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(135deg,rgba(255,107,26,.18) 0%,transparent 60%);
+    opacity:0;transition:opacity .35s ease;
+  }
+  .ai-card:hover{border-color:var(--accent);transform:translateY(-4px);}
+  .ai-card:hover::before{
+    background:linear-gradient(180deg,rgba(10,10,10,.55) 0%,rgba(10,10,10,.3) 50%,rgba(10,10,10,.85) 100%);
+  }
+  .ai-card:hover::after{opacity:1;}
+  .ai-card .tag{
+    font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--accent);position:relative;z-index:1;
+  }
+  .ai-card .title{
+    font-size:16px;font-weight:800;color:var(--text-primary);letter-spacing:-.01em;
+    line-height:1.3;position:relative;z-index:1;
+  }
+  .ai-card .meta{
+    font-size:12px;color:var(--text-secondary);font-weight:500;position:relative;z-index:1;
+  }
+  .ai-card .meta strong{color:var(--text-primary);font-weight:700;font-size:18px;}
+  .ai-cta{
+    margin-top:28px;display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:16px;
+  }
+  .ai-cta .note{font-size:13px;color:var(--text-secondary);line-height:1.6;}
+  .ai-cta .note strong{color:var(--text-primary);font-weight:600;}
+
+  @media (max-width:768px){
+    .ai-archive-grid{grid-template-columns:repeat(2,1fr);}
+    .ai-archive-head .right{text-align:left;}
+  }
+
+  /* ---------- EXPERIENCE ---------- */
+  .timeline{display:flex;flex-direction:column;}
+  .tl-row{
+    display:grid;grid-template-columns:180px 1fr 1.2fr;gap:48px;
+    padding:40px 0;border-bottom:1px solid var(--border);
+    opacity:0;transform:translateY(20px);
+  }
+  .tl-row:first-child{border-top:1px solid var(--border);}
+  .tl-date{
+    font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--accent);
+    line-height:1.5;
+  }
+  .tl-date .span{display:block;color:var(--text-secondary);font-size:11px;font-weight:600;margin-top:4px;letter-spacing:.1em;}
+  .tl-role{
+    font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--text-primary);line-height:1.35;
+  }
+  .tl-role .org{
+    display:block;font-size:13px;font-weight:600;color:var(--text-secondary);
+    margin-top:8px;letter-spacing:.02em;text-transform:uppercase;
+  }
+  .tl-bullets{list-style:none;}
+  .tl-bullets li{
+    font-size:14.5px;line-height:1.8;color:var(--text-secondary);
+    padding-left:18px;position:relative;margin-bottom:6px;
+  }
+  .tl-bullets li::before{
+    content:"";position:absolute;left:0;top:13px;width:8px;height:1px;background:var(--accent);
+  }
+
+  .edu-title{
+    margin-top:120px;
+    font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:24px;
+  }
+
+  /* ---------- CONTACT ---------- */
+  #contact{padding:200px 0 120px;}
+  .contact-pre{
+    font-size:clamp(20px,2.2vw,28px);font-weight:500;
+    color:var(--text-primary);letter-spacing:-.015em;line-height:1.5;
+    margin-bottom:48px;max-width:900px;
+  }
+  .contact-pre em{
+    font-style:normal;color:var(--accent);font-weight:700;
+  }
+  .contact-pre span{
+    color:var(--text-secondary);font-weight:400;margin:0 6px;
+  }
+  .contact-display{
+    font-size:clamp(56px,9vw,128px);
+    font-weight:900;line-height:.92;letter-spacing:-.05em;
+    text-transform:uppercase;color:#FFFFFF;
+  }
+  .contact-display .line{display:block;overflow:hidden;}
+  .contact-display .line span{
+    display:inline-block;opacity:0;transform:translateY(60px);will-change:transform,opacity;
+  }
+  .contact-display .accent{color:var(--accent);}
+  .contact-cta{
+    margin-top:80px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:32px;
+  }
+  .magnetic-btn{
+    display:inline-flex;align-items:center;gap:18px;
+    padding:24px 36px;border:1px solid var(--accent);border-radius:999px;
+    color:var(--accent);font-size:18px;font-weight:700;letter-spacing:.02em;
+    transition:background .3s ease,color .3s ease;
+    will-change:transform;
+  }
+  .magnetic-btn:hover{background:var(--accent);color:#000;}
+  .magnetic-btn .arrow{
+    display:inline-block;transition:transform .3s ease;
+  }
+  .magnetic-btn:hover .arrow{transform:translateX(6px);}
+
+  .contact-meta{
+    display:flex;flex-direction:column;gap:14px;text-align:right;
+  }
+  .contact-meta .label{
+    font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);
+  }
+  .contact-meta a,.contact-meta span{
+    font-size:15px;color:var(--text-primary);font-weight:500;
+    transition:color .3s ease;
+  }
+  .contact-meta a:hover{color:var(--accent);}
+
+  footer{
+    margin-top:120px;padding:32px 0;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--text-secondary);
+  }
+  footer .accent{color:var(--accent);}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:768px){
+    .wrap{padding:0 24px;}
+    .topbar{padding:18px 24px;}
+    .hero{padding:120px 24px 40px;}
+    .hero-bottom{flex-direction:column;align-items:flex-start;gap:32px;}
+    .section{padding:100px 0;}
+    .section-display{margin-bottom:48px;}
+    #about .about-grid{grid-template-columns:1fr;gap:48px;}
+    .strengths{grid-template-columns:1fr;margin-top:64px;}
+    .work-row{grid-template-columns:40px minmax(0,1fr) 30px;gap:14px;padding:22px 10px;}
+    .w-meta,.w-tag{display:none;}
+    .w-title{font-size:18px;}
+    .kpi{grid-template-columns:repeat(2,1fr);gap:32px;padding:48px 28px;margin-top:64px;}
+    .featured-divider{margin-top:96px;}
+    .featured-divider .featured-intro{text-align:left;}
+    .feature-case{margin-top:48px;padding-top:48px;}
+    .feature-meta{grid-template-columns:repeat(2,1fr);gap:20px;}
+    .features-grid{grid-template-columns:1fr;}
+    .feature-result{grid-template-columns:1fr;gap:20px;padding:32px 24px;}
+    .tl-row{grid-template-columns:1fr;gap:16px;padding:32px 0;}
+    .contact-meta{text-align:left;}
+    .contact-cta{flex-direction:column;align-items:flex-start;}
+    .topbar{mix-blend-mode:normal;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<header class="topbar">
+  <div class="left">UI / UX DESIGNER</div>
+  <div class="right">2026 — PORTFOLIO</div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div></div>
+  <h1 class="hero-name" id="heroName">
+    <span class="line"><span>JUEUN</span></span>
+    <span class="line"><span>KIM<span class="accent">.</span></span></span>
+    <span class="line"><span>PORTFOLIO</span></span>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-bio" id="heroBio">
+      사용자의 망설임을 줄이고 <strong>사용 흐름을 설계하는</strong> UI/UX 디자이너. 약 4년간 웹·앱 UI/UX 디자인을 중심으로<br/>
+      서비스 화면 설계, 디자인 시스템 구축, 반응형 UI 설계를 수행해왔습니다.<br/>
+      현재 회원 수 <strong>37,417명 규모의 생성형 AI 콘텐츠 플랫폼</strong> UI/UX를 담당하고 있습니다.
+    </p>
+    <a href="#about" class="hero-scroll" id="heroScroll">
+      SCROLL <span class="arrow"></span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>UI / UX DESIGN ✦</span><span>FIGMA ✦</span><span>GENERATIVE AI ✦</span>
+    <span>DESIGN SYSTEM ✦</span><span>PROTOTYPING ✦</span><span>RESPONSIVE WEB ✦</span>
+    <span>BRAND DESIGN ✦</span><span>USER FLOW ✦</span>
+    <span>UI / UX DESIGN ✦</span><span>FIGMA ✦</span><span>GENERATIVE AI ✦</span>
+    <span>DESIGN SYSTEM ✦</span><span>PROTOTYPING ✦</span><span>RESPONSIVE WEB ✦</span>
+    <span>BRAND DESIGN ✦</span><span>USER FLOW ✦</span>
+  </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="section">
+  <div class="wrap">
+    <div class="section-label">01 — ABOUT</div>
+    <h2 class="section-display reveal-display">ABOUT ME.</h2>
+
+    <div class="about-grid">
+      <div class="about-left">
+        <p class="lead reveal-body">
+          기능을 늘리기보다 <em>사용자가 멈추지 않는 흐름</em>을 먼저 설계합니다.
+          화면 하나가 아니라 다음 행동까지 자연스럽게 이어지는 구조를 만드는 일이 제가 가장 잘하는 일입니다.
+        </p>
+        <blockquote class="about-quote reveal-body">
+          “문제를 개별 화면에서 보지 않고, 사용자가 실제로 어디서 멈추는지부터 확인합니다.
+          새로운 기능을 추가하기 전에, 사용자가 끝까지 도달할 수 있는 흐름인지 먼저 점검합니다.”
+        </blockquote>
+      </div>
+      <div class="about-right">
+        <p class="reveal-body">
+          약 4년간 웹·앱 UI/UX 디자인을 중심으로 서비스 화면 설계, 디자인 시스템 구축, 반응형 UI 설계를 수행해왔습니다.
+          사용자 흐름을 기준으로 화면과 컴포넌트를 개선하며
+          <strong>버튼 클릭률 12% 증가, 디자인 재사용성 35% 향상, 컴포넌트 재사용률 40% 향상</strong>에 기여했습니다.
+        </p>
+        <p class="reveal-body">
+          최근에는 <strong>회원 수 37,417명 규모의 생성형 AI 콘텐츠 플랫폼</strong> UI/UX를 담당하며,
+          프롬프트 입력부터 이미지·영상 생성, 결과 확인, 다운로드까지 이어지는 사용 흐름을 설계하고 있습니다.
+          복잡한 AI 기능을 사용자가 이해할 수 있도록 화면 구조와 안내 문구를 단순화하고,
+          이미지·영상 제작 및 프롬프트 템플릿 설계까지 함께 수행하고 있습니다.
+        </p>
+        <p class="reveal-body">
+          Figma를 중심으로 Photoshop, Illustrator를 활용하며, HTML·CSS 구조에 대한 이해를 바탕으로
+          개발팀과 원활하게 협업합니다. 또한 박람회 부스, 배너, 리플렛 등 오프라인 홍보물과 마케팅 그래픽 디자인까지 수행했습니다.
+        </p>
+      </div>
+    </div>
+
+    <div class="strengths">
+      <div class="strength">
+        <span class="num">01</span>
+        <h3>User Flow Architecture</h3>
+        <span class="kr">사용자 흐름 설계</span>
+        <p>화면 단위가 아닌 행동 단위로 흐름을 설계합니다. 이탈 구간을 먼저 찾아내고, 다음 행동을 고민하지 않게 만드는 구조로 정리합니다.</p>
+      </div>
+      <div class="strength">
+        <span class="num">02</span>
+        <h3>Design System Building</h3>
+        <span class="kr">디자인 시스템 구축</span>
+        <p>버튼·입력창·컬러·상태값을 하나의 기준으로 정리해 Figma 컴포넌트로 구조화합니다. 디자인 재사용성 35%, 컴포넌트 재사용률 40% 향상.</p>
+      </div>
+      <div class="strength">
+        <span class="num">03</span>
+        <h3>Generative AI Content</h3>
+        <span class="kr">생성형 AI 콘텐츠 제작</span>
+        <p>Nano Banana Pro, Kling, Veo3, Seedream을 활용해 3D 아이콘·광고 비주얼·AI 모델·숏폼 그래픽 등 500+ 콘텐츠를 제작·아카이빙했습니다.</p>
+      </div>
+      <div class="strength">
+        <span class="num">04</span>
+        <h3>Cross-team Collaboration</h3>
+        <span class="kr">협업 · 커뮤니케이션</span>
+        <p>같은 문제가 반복되지 않도록 기준을 남깁니다. 개발팀과는 구현 가능한 구조를, 마케팅팀과는 서비스 경험과 어긋나지 않는 메시지를 함께 맞춥니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORKS ============ -->
+<section id="works" class="section">
+  <div class="wrap">
+    <div class="section-label">02 — SELECTED WORKS</div>
+    <h2 class="section-display reveal-display">WORKS.</h2>
+
+    <div class="works-list">
+      <a href="#case-toktak" class="work-row">
+        <span class="w-num">01</span>
+        <span class="w-title">보다파크 — Generative AI Platform</span>
+        <span class="w-meta"><span class="role">UI/UX · UX Architecture</span>2025.07 — Present · 보다플레이㈜</span>
+        <span class="w-tag">B2C · AI</span>
+        <span class="w-arrow">→</span>
+      </a>
+      <a href="#case-planhom" class="work-row">
+        <span class="w-num">02</span>
+        <span class="w-title">플랜홈 — 인터페이스 설계 & 디자인 시스템</span>
+        <span class="w-meta"><span class="role">UI/UX · Design System</span>2023.09 — 2025.03 · 커넥트코리아</span>
+        <span class="w-tag">WEB · APP</span>
+        <span class="w-arrow">→</span>
+      </a>
+      <a href="#case-cocosuri" class="work-row">
+        <span class="w-num">03</span>
+        <span class="w-title">코코수리 — 디자인 시스템 유지보수 & 개선</span>
+        <span class="w-meta"><span class="role">Design System · UX</span>2022.11 — 2023.06 · 커넥트코리아</span>
+        <span class="w-tag">SYSTEM</span>
+        <span class="w-arrow">→</span>
+      </a>
+    </div>
+
+    <!-- Featured 01 — 보다파크 -->
+    <article class="feature-case" id="case-toktak">
+      <span class="feature-num">01 — FEATURED</span>
+      <h3 class="feature-title">BODAPARK — 보다파크</h3>
+      <p class="feature-sub">생성형 AI 콘텐츠 플랫폼 · 회원수 37,417명 규모</p>
+
+      <div class="qr-row">
+        <a href="https://bling-studio.app" target="_blank" rel="noopener" class="qr-card">
+          <span class="qr-caption">Live Site</span>
+          <img src="images/qr-bling.svg" alt="bling-studio.app QR 코드" loading="lazy" />
+        </a>
+        <a href="https://www.instagram.com/tomatoma.i/" target="_blank" rel="noopener" class="qr-card">
+          <span class="qr-caption">AI Archive</span>
+          <img src="images/qr-instagram.svg" alt="Instagram @tomatoma.i QR 코드" loading="lazy" />
+        </a>
+      </div>
+
+      <div class="project-kpi">
+        <div class="item">
+          <div class="num"><span class="count" data-target="37417">0</span></div>
+          <div class="label">플랫폼 회원수 MAU<br/>담당 서비스 규모</div>
+        </div>
+        <div class="item">
+          <div class="num"><span class="count" data-target="60">0</span><span class="u">% ↓</span></div>
+          <div class="label">내부 시연 설명 시간<br/>구조 단순화 효과</div>
+        </div>
+        <div class="item">
+          <div class="num"><span class="count" data-target="30">0</span><span class="u">+</span></div>
+          <div class="label">핵심 사용 흐름<br/>UX 개선안 도출</div>
+        </div>
+        <div class="item">
+          <div class="num"><span class="count" data-target="500">0</span><span class="u">+</span></div>
+          <div class="label">직접 제작 AI 콘텐츠<br/>이미지 · 영상 · 템플릿</div>
+        </div>
+      </div>
+
+      <div class="feature-meta">
+        <div><span class="label">PERIOD</span>2025.07 — Present</div>
+        <div><span class="label">ROLE</span>책임 디자이너 · UX 구조 설계</div>
+        <div><span class="label">TOOLS</span>Figma · Nano Banana Pro · Kling · Veo3</div>
+        <div><span class="label">TYPE</span>B2C · Web · AI Platform</div>
+      </div>
+
+      <p class="feature-overview">
+        회원 수 <strong>37,417명 규모의 생성형 AI 콘텐츠 플랫폼</strong>입니다. 프롬프트 입력부터 이미지·영상 생성, 결과 확인, 다운로드까지 이어지는 <strong>핵심 사용자 흐름</strong>을 설계합니다. "기능 제공 순서가 아닌 <strong>사용 목적 기준</strong>"으로 구조를 재구성하여, 광고 영상 · 인플루언서 영상 · 비디오 에디터 · AI 이미지처럼 결과물 유형을 먼저 선택하게 하고 이후 필요한 템플릿과 옵션이 이어지도록 흐름을 설계했습니다. 복잡한 AI 기능을 사용자가 이해할 수 있도록 화면 구조와 안내 문구를 단순화하고, 이미지·영상 제작 및 프롬프트 템플릿 설계까지 함께 수행하고 있습니다.
+      </p>
+
+      <div class="feature-tags">
+        <span>#생성형AI</span><span>#UX구조설계</span><span>#프롬프트템플릿</span>
+        <span>#콘텐츠제작</span><span>#B2C</span><span>#B2B</span><span>#책임디자이너</span>
+      </div>
+
+      <div class="feature-features">
+        <h4>Key Features</h4>
+        <div class="features-grid">
+          <div class="ff-item">
+            <span class="ff-num">FEATURE 01</span>
+            <h5>프롬프트 → 결과 플로우</h5>
+            <p>최초 생성에 영향을 주지 않는 항목은 뒤로 분리하고, 필수 정보만으로 결과를 먼저 확인하는 구조로 재정리. CTA는 화면 하단 고정.</p>
+          </div>
+          <div class="ff-item">
+            <span class="ff-num">FEATURE 02</span>
+            <h5>결과 유형 기반 선택</h5>
+            <p>광고 영상·인플루언서 영상·비디오 에디터·AI 이미지처럼 결과물 유형을 먼저 선택하게 하고, 이후 템플릿과 옵션이 이어지도록 설계.</p>
+          </div>
+          <div class="ff-item">
+            <span class="ff-num">FEATURE 03</span>
+            <h5>AI 콘텐츠 & 템플릿</h5>
+            <p>Nano Banana Pro · Kling · Veo3 활용. 이미지 300+, 영상 200+, 프롬프트 템플릿 50+ 제작 및 아카이빙.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-result">
+        <div class="result-num">−30<span style="font-size:.5em;">%</span></div>
+        <div class="result-text">
+          <strong>AI 기능 사용 진입장벽 완화</strong>
+          입력 단계와 결과 확인 단계를 단순화하여 AI 기능 사용 진입장벽을 약 30% 완화했습니다.
+          내부 시연에서도 기능 설명에 걸리던 시간이 약 60% 감소해, 처음 사용하는 사용자도 구조를 빠르게 이해할 수 있게 되었습니다.
+        </div>
+      </div>
+
+      <!-- ─── CHAPTER 01 — PRODUCT ─── -->
+      <div class="chapter">
+        <div>
+          <span class="idx">CHAPTER 01<span class="total"> / 04</span> — PRODUCT</span>
+          <h4>실제 설계한<br/>제품 화면</h4>
+        </div>
+        <p class="desc">
+          로그인 후 메인은 <strong>결과물 유형 기준</strong>으로 진입을 재구성했습니다.
+          광고 영상 · 인플루언서 영상 · 비디오 에디터 · 비주얼 생성기로 분기시켜 사용자가 무엇을 만들지부터 결정하게 합니다.
+        </p>
+      </div>
+      <div class="feature-gallery">
+        <img class="gallery-hero" src="images/toktak-main.jpg" alt="보다파크 메인 화면 — AI 광고 영상 / AI 인플루언서 영상 / AI 비디오 에디터 / AI 비주얼 생성기 결과 유형 선택" loading="lazy" />
+        <div class="gallery-grid">
+          <img src="images/toktak-ad-01.jpg" alt="보다파크 AI 광고 영상 — 스크립트 입력과 생성 화면" loading="lazy" />
+          <img src="images/toktak-inf-01.jpg" alt="보다파크 AI 인플루언서 영상 — 캐릭터·외형 선택 화면" loading="lazy" />
+          <img src="images/toktak-ad-03.jpg" alt="보다파크 AI 광고 영상 — Scene 분할과 결과물 미리보기" loading="lazy" />
+          <img src="images/toktak-inf-03.jpg" alt="보다파크 AI 인플루언서 영상 — 상세 옵션 선택" loading="lazy" />
+        </div>
+        <div class="gallery-caption">메인 · AI 광고 영상 · AI 인플루언서 영상 인터페이스</div>
+      </div>
+
+      <!-- ─── CHAPTER 02 — OUTPUT REEL ─── -->
+      <div class="chapter">
+        <div>
+          <span class="idx">CHAPTER 02<span class="total"> / 04</span> — OUTPUT REEL</span>
+          <h4>보다파크으로 만든<br/>실제 결과 영상</h4>
+        </div>
+        <p class="desc">
+          입력 → 생성 → 다운로드 흐름을 직접 테스트하며 만든 <strong>광고·인플루언서 클립 샘플</strong>입니다.
+          반복 제작 과정에서 발견한 입력 가이드·결과 화면 개선점을 UX에 반영했습니다.
+        </p>
+      </div>
+      <div class="reel-grid">
+        <div class="reel-item"><span class="badge">REEL 01</span>
+          <video src="images/reel-05.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+        <div class="reel-item"><span class="badge">REEL 02</span>
+          <video src="images/reel-02.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+        <div class="reel-item"><span class="badge">REEL 03</span>
+          <video src="images/reel-03.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+        <div class="reel-item"><span class="badge">REEL 04</span>
+          <video src="images/reel-04.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+      </div>
+
+      <!-- ─── CHAPTER 03 — ASSET ARCHIVE ─── -->
+      <div class="chapter">
+        <div>
+          <span class="idx">CHAPTER 03<span class="total"> / 04</span> — ARCHIVE</span>
+          <h4>직접 제작한<br/>AI 콘텐츠 아카이브</h4>
+        </div>
+        <p class="desc">
+          UX 개선의 근거로 직접 프롬프트를 작성하고 결과물을 테스트합니다. 반복 제작이 가능한 구조로 정리해
+          <strong>입력 예시·템플릿명·재생성 흐름</strong> 개선에 반영하고 있습니다.
+        </p>
+      </div>
+      <section class="ai-archive" style="margin-top:0;padding-top:0;border-top:none;">
+
+        <div class="ai-archive-grid">
+          <a href="https://www.instagram.com/tomatoma.i/" target="_blank" rel="noopener" class="ai-card" style="background-image:url('images/asset-visual-01.jpg');">
+            <span class="tag">CATEGORY · 01</span>
+            <div class="title">AI Product<br/>Visual & Ads</div>
+            <div class="meta"><strong>180+</strong> images · Seedream · GPT</div>
+          </a>
+          <a href="https://www.instagram.com/tomatoma.i/" target="_blank" rel="noopener" class="ai-card" style="background-image:url('images/asset-visual-02.jpg');">
+            <span class="tag">CATEGORY · 02</span>
+            <div class="title">AI Model &<br/>Influencer</div>
+            <div class="meta"><strong>95+</strong> concepts · Kling · Veo3</div>
+          </a>
+          <a href="https://www.instagram.com/tomatoma.i/" target="_blank" rel="noopener" class="ai-card" style="background-image:url('images/asset-visual-03.jpg');">
+            <span class="tag">CATEGORY · 03</span>
+            <div class="title">Fashion &<br/>Lifestyle Visual</div>
+            <div class="meta"><strong>120+</strong> assets · Nano Banana Pro</div>
+          </a>
+          <a href="https://www.instagram.com/tomatoma.i/" target="_blank" rel="noopener" class="ai-card" style="background-image:url('images/asset-visual-04.jpg');">
+            <span class="tag">CATEGORY · 04</span>
+            <div class="title">Short-form<br/>Video Asset</div>
+            <div class="meta"><strong>200+</strong> clips · 숏폼 그래픽</div>
+          </a>
+        </div>
+
+        <div class="ai-cta">
+          <p class="note">
+            <strong>총 500+ 콘텐츠</strong>를 SNS 콘텐츠 · 광고 배너 · 카드뉴스 · 서비스 홍보물 용도로
+            주제별 톤앤매너와 사용 목적을 고려해 제작·아카이빙했습니다.
+          </p>
+          <a href="https://www.instagram.com/tomatoma.i/" target="_blank" rel="noopener" class="live-cta">
+            <span class="dot"></span>
+            VIEW ARCHIVE — @tomatoma.i
+            <span>↗</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ─── CHAPTER 04 — STUDIO WORKS ─── -->
+      <div class="chapter">
+        <div>
+          <span class="idx">CHAPTER 04<span class="total"> / 04</span> — STUDIO WORKS</span>
+          <h4>AI Visual<br/>Studio Works</h4>
+        </div>
+        <p class="desc">
+          인물 · 의상 · 배경 · 무드를 <strong>프롬프트로 직접 설계해</strong> 제작한 AI 비주얼 작업물입니다.
+          광고 · 시연 · 홍보용 시각 자산으로 확장 가능한 형태로 아카이빙하고 있습니다.
+          <br/><span style="display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;">Hover &amp; use ← → to browse</span>
+        </p>
+      </div>
+      <div class="lookbook" id="lookbook">
+        <button class="lookbook-nav prev" type="button" aria-label="이전 이미지">←</button>
+        <button class="lookbook-nav next" type="button" aria-label="다음 이미지">→</button>
+        <div class="lookbook-track">
+          <video src="images/reel-07.mp4" autoplay muted loop playsinline preload="metadata"></video>
+          <video src="images/reel-08.mp4" autoplay muted loop playsinline preload="metadata"></video>
+          <video src="images/reel-09.mp4" autoplay muted loop playsinline preload="metadata"></video>
+          <video src="images/reel-10.mp4" autoplay muted loop playsinline preload="metadata"></video>
+          <video src="images/reel-11.mp4" autoplay muted loop playsinline preload="metadata"></video>
+          <video src="images/reel-12.mp4" autoplay muted loop playsinline preload="metadata"></video>
+          <video src="images/reel-13.mp4" autoplay muted loop playsinline preload="metadata"></video>
+          <video src="images/reel-14.mp4" autoplay muted loop playsinline preload="metadata"></video>
+          <img src="images/lookbook-01.jpg" alt="" loading="lazy" /><img src="images/lookbook-17.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-02.jpg" alt="" loading="lazy" /><img src="images/lookbook-18.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-03.jpg" alt="" loading="lazy" /><img src="images/lookbook-19.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-04.jpg" alt="" loading="lazy" /><img src="images/lookbook-20.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-05.jpg" alt="" loading="lazy" /><img src="images/lookbook-21.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-06.jpg" alt="" loading="lazy" /><img src="images/lookbook-22.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-07.jpg" alt="" loading="lazy" /><img src="images/lookbook-23.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-08.jpg" alt="" loading="lazy" /><img src="images/lookbook-24.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-11.jpg" alt="" loading="lazy" /><img src="images/lookbook-25.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-12.jpg" alt="" loading="lazy" /><img src="images/lookbook-26.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-13.jpg" alt="" loading="lazy" /><img src="images/lookbook-27.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-14.jpg" alt="" loading="lazy" /><img src="images/lookbook-28.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-15.jpg" alt="" loading="lazy" /><img src="images/lookbook-16.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-29.jpg" alt="" loading="lazy" /><img src="images/lookbook-30.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-31.jpg" alt="" loading="lazy" /><img src="images/lookbook-32.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-33.jpg" alt="" loading="lazy" /><img src="images/lookbook-34.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-35.jpg" alt="" loading="lazy" /><img src="images/lookbook-36.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-37.jpg" alt="" loading="lazy" /><img src="images/lookbook-38.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-39.jpg" alt="" loading="lazy" /><img src="images/lookbook-40.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-41.jpg" alt="" loading="lazy" /><img src="images/lookbook-42.jpg" alt="" loading="lazy" />
+          <img src="images/lookbook-43.jpg" alt="" loading="lazy" />
+          <img src="images/asset-still-01.jpg" alt="" loading="lazy" /><img src="images/asset-still-02.jpg" alt="" loading="lazy" />
+          <!-- duplicate set for seamless loop -->
+          <video src="images/reel-07.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <video src="images/reel-08.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <video src="images/reel-09.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <video src="images/reel-10.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <video src="images/reel-11.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <video src="images/reel-12.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <video src="images/reel-13.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <video src="images/reel-14.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <img src="images/lookbook-01.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-17.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-02.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-18.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-03.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-19.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-04.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-20.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-05.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-21.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-06.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-22.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-07.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-23.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-08.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-24.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-11.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-25.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-12.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-26.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-13.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-27.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-14.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-28.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-15.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-16.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-29.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-30.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-31.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-32.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-33.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-34.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-35.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-36.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-37.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-38.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-39.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-40.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-41.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/lookbook-42.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/lookbook-43.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <img src="images/asset-still-01.jpg" alt="" aria-hidden="true" loading="lazy" /><img src="images/asset-still-02.jpg" alt="" aria-hidden="true" loading="lazy" />
+        </div>
+      </div>
+    </article>
+
+    <!-- Featured 02 — 플랜홈 -->
+    <article class="feature-case" id="case-planhom">
+      <span class="feature-num">02 — FEATURED</span>
+      <h3 class="feature-title">PLANHOM — 플랜홈</h3>
+      <p class="feature-sub">3D 인테리어 디자인 앱 신규 론칭 프로젝트</p>
+
+      <div class="feature-meta">
+        <div><span class="label">PERIOD</span>2023.09 — 2025.03</div>
+        <div><span class="label">ROLE</span>UX 기획 · UI 디자인 40%</div>
+        <div><span class="label">TOOLS</span>Figma · Photoshop · Illustrator</div>
+        <div><span class="label">PLATFORM</span>iOS · Android · Web</div>
+      </div>
+
+      <p class="feature-overview">
+        사용자가 직접 공간을 설계하고 시각화할 수 있는 <strong>3D 인테리어 디자인 솔루션</strong>입니다.
+        누구나 손쉽게 가구를 배치하고 실시간으로 변화를 확인할 수 있도록 직관적인 UI와 효율적인 사용자 흐름을 설계했습니다.
+        Desk Research → Competitive Analysis → Insight → Service Plan → 브랜딩 시스템 → 컴포넌트 정리까지
+        프로덕트 전 과정에 참여했고, 초보자 진입장벽·맞춤형 기능 부족·렌더링 속도라는 3개 핵심 문제를
+        UX 단계에서 풀어냈습니다.
+      </p>
+
+      <div class="feature-tags">
+        <span>#UX분석</span><span>#디자인시스템</span><span>#아이콘그래피</span>
+        <span>#반응형</span><span>#B2C</span><span>#소통과 협업</span><span>#기획·아이디어</span>
+      </div>
+
+      <div class="feature-features">
+        <h4>Key Features</h4>
+        <div class="features-grid">
+          <div class="ff-item">
+            <span class="ff-num">FEATURE 01</span>
+            <h5>도면 그리기</h5>
+            <p>CAD 없이 손가락으로 쉽게 도면 제작. AI 기술과 LiDAR 카메라 스캔으로 2D·3D 도면 자동 생성.</p>
+          </div>
+          <div class="ff-item">
+            <span class="ff-num">FEATURE 02</span>
+            <h5>가구 · 마감재 적용</h5>
+            <p>실제 판매되는 가구·타일·마루·벽지 등 수백 가지 스타일과 컬러를 실시간으로 적용·시뮬레이션.</p>
+          </div>
+          <div class="ff-item">
+            <span class="ff-num">FEATURE 03</span>
+            <h5>초 리얼리티 렌더링</h5>
+            <p>HD~UHD 다양한 품질의 렌더링과 AR/VR 720° 체험, 실제 방위 기준 일조량 분석까지 제공.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-result">
+        <div class="result-num">+50<span style="font-size:.5em;">%</span></div>
+        <div class="result-text">
+          <strong>UI 컴포넌트 재사용성 증가</strong>
+          디자인 가이드의 일관성 부족 문제를 분석·정리하여 디자인 시스템을 개선했습니다.
+          중복된 UI 요소를 통합하고 명확한 가이드를 제공해, 개발팀과의 협업 효율과 화면 완성도가 함께 높아졌습니다.
+        </div>
+      </div>
+
+      <div class="feature-gallery">
+        <img class="gallery-hero" src="images/planhom-main.jpg" alt="플랜홈 메인 페이지 — 실사 같은 렌더링 이미지로 몰입감 넘치는 공간" loading="lazy" />
+        <div class="gallery-grid">
+          <img src="images/planhom-floor.jpg" alt="플랜홈 도면 그리기 — CAD 없이 손가락으로 도면 제작" loading="lazy" />
+          <img src="images/planhom-ar.jpg" alt="플랜홈 AR/VR — 원하는 가구로 인테리어를 미리 경험" loading="lazy" />
+          <img src="images/planhom-render.jpg" alt="플랜홈 렌더링 — 초 리얼리티 화질의 렌더링" loading="lazy" />
+          <img src="images/planhom-hero.jpg" alt="플랜홈 브랜드 비주얼" loading="lazy" />
+        </div>
+        <div class="gallery-caption">SCREEN MOCKUPS · PLANHOM 2024</div>
+      </div>
+    </article>
+
+    <!-- Featured 03 — 코코수리 -->
+    <article class="feature-case" id="case-cocosuri">
+      <span class="feature-num">03 — FEATURED</span>
+      <h3 class="feature-title">COCOSURI — 코코수리</h3>
+      <p class="feature-sub">수리 · 유지보수 매칭 플랫폼 앱 신규 론칭 프로젝트</p>
+
+      <div class="feature-meta">
+        <div><span class="label">PERIOD</span>2022.11 — 2023.06</div>
+        <div><span class="label">ROLE</span>UI 40% · 퍼블리싱 20%</div>
+        <div><span class="label">TOOLS</span>Figma · Photoshop · HTML/CSS · JS</div>
+        <div><span class="label">PLATFORM</span>iOS · Android · Web</div>
+      </div>
+
+      <p class="feature-overview">
+        소비자 · 기능인 · 공급자를 효율적으로 연결하는 <strong>수리·유지보수 매칭 플랫폼</strong>입니다.
+        121명 사용자 설문을 통해 "전문가 신뢰성 부족 · 가격 불투명성 · A/S 미보장" 3개 페인포인트를 발견하고,
+        견적 비교·실시간 매칭·유지보수 보증을 핵심 솔루션으로 설계했습니다.
+        직관적인 UI와 스마트 매칭 시스템으로 누구나 쉽게 수리 서비스를 이용할 수 있도록 최적화했습니다.
+      </p>
+
+      <div class="feature-tags">
+        <span>#UI디자인</span><span>#퍼블리싱</span><span>#디자인시스템</span>
+        <span>#사용자 리서치</span><span>#매칭 플랫폼</span><span>#O2O</span>
+      </div>
+
+      <div class="feature-features">
+        <h4>Key Features</h4>
+        <div class="features-grid">
+          <div class="ff-item">
+            <span class="ff-num">FEATURE 01</span>
+            <h5>빠른 시공 견적</h5>
+            <p>수리 유형·상품·시간을 선택하면 전문가가 실시간 견적을 확인 후 즉시 상담, 긴급 당일 시공도 지원.</p>
+          </div>
+          <div class="ff-item">
+            <span class="ff-num">FEATURE 02</span>
+            <h5>실제 시공 사례 & 후기</h5>
+            <p>Before & After 비교로 전문가의 스타일과 실력 확인, 평점·후기 기반으로 최적 전문가 매칭.</p>
+          </div>
+          <div class="ff-item">
+            <span class="ff-num">FEATURE 03</span>
+            <h5>기획전 · 시즌 특가</h5>
+            <p>계절별 맞춤 기획전과 인기 서비스 특별 할인, 신규·정기 유지보수 고객 대상 쿠폰 제공.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-result">
+        <div class="result-num">+12<span style="font-size:.5em;">%</span></div>
+        <div class="result-text">
+          <strong>버튼 클릭률 증가 · 페이지 이탈률 감소</strong>
+          사용자 이동 경로 분석 후 네비게이션 구조를 단순화하고 핵심 메뉴를 강조했습니다.
+          사용성 테스트 결과를 반영해 시간 선택을 드롭다운으로 개편하고 서비스 상세 항목을 보강하여
+          데이터 기반 UX 개선의 효과를 확인했습니다.
+        </div>
+      </div>
+
+      <div class="feature-gallery">
+        <img class="gallery-hero" src="images/cocosuri-home.jpg" alt="코코수리 메인 홈 — 우리집 수리 간편하게 해결하세요" loading="lazy" />
+        <div class="gallery-grid">
+          <img src="images/cocosuri-onboard.jpg" alt="코코수리 온보딩 — 쉽고 빠른 시공, 투명한 가격" loading="lazy" />
+          <img src="images/cocosuri-quote.jpg" alt="코코수리 견적 신청 — Step1/2/3 맞춤 견적" loading="lazy" />
+          <img src="images/cocosuri-reviews.jpg" alt="코코수리 시공 사례 & 후기 — Before & After 비교" loading="lazy" />
+          <img src="images/cocosuri-hero.jpg" alt="코코수리 브랜드 비주얼" loading="lazy" />
+        </div>
+        <div class="gallery-caption">SCREEN MOCKUPS · COCOSURI 2023</div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience" class="section">
+  <div class="wrap">
+    <div class="section-label">03 — EXPERIENCE</div>
+    <h2 class="section-display reveal-display">EXPERIENCE.</h2>
+
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-date">
+          2025.07 — Present
+          <span class="span">1Y · 책임</span>
+        </div>
+        <div class="tl-role">
+          UI/UX Designer · 책임
+          <span class="org">보다플레이㈜ — 보다파크 / 보다파크</span>
+        </div>
+        <ul class="tl-bullets">
+          <li>회원 수 37,417명 규모 생성형 AI 콘텐츠 플랫폼 UI/UX 개선 — 핵심 사용 흐름 30+ 개선안 도출</li>
+          <li>프롬프트 입력 → AI 결과 생성 → 미리보기 → 다운로드 핵심 플로우 전체 설계</li>
+          <li>입력·결과 확인 단계 단순화로 AI 기능 사용 진입장벽 약 30% 완화</li>
+          <li>Nano Banana Pro · Kling · Veo3로 이미지 300+, 영상 200+, 프롬프트 템플릿 50+ 제작</li>
+          <li>박람회 부스·배너·리플렛·QR 안내물 등 오프라인 홍보물 15+ 디자인</li>
+        </ul>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-date">
+          2022.11 — 2025.03
+          <span class="span">2Y 5M · 팀원</span>
+        </div>
+        <div class="tl-role">
+          UI/UX Designer
+          <span class="org">커넥트코리아 — 플랜홈 / 코코수리 / CNINSIDER</span>
+        </div>
+        <ul class="tl-bullets">
+          <li>코코수리 디자인 시스템 정리·문서화 — 버튼 클릭률 12% 증가, UI 일관성 강화</li>
+          <li>플랜홈 디자인 가이드라인 구축 (Figma) — 디자인 재사용성 35% 향상</li>
+          <li>플랜홈 반응형 웹 + iOS/Android 네이티브 앱 UI 적용 및 인터랙션 설계</li>
+          <li>자회사 모바일 플랫폼 UI 최적화 — 컴포넌트 재사용률 40% 향상, HIG·Material 준수</li>
+          <li>커넥트코리아 공식 홈페이지 가이드라인 구축 — 디자인 시스템 적용률 90% 달성</li>
+        </ul>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-date">
+          2020.12 — 2021.08
+          <span class="span">9M · 사원</span>
+        </div>
+        <div class="tl-role">
+          Video Editor & Graphic Designer
+          <span class="org">더직 — 영상디자인</span>
+        </div>
+        <ul class="tl-bullets">
+          <li>'살집채널' 운영 — 구독자 5만명 달성</li>
+          <li>수도권 200+ 부동산 유튜브 채널 운영 대행 및 콘텐츠 디자인</li>
+          <li>썸네일·채널아트·재개발 지도·명함 등 브랜딩 그래픽 제작</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="edu-title">EDUCATION</div>
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-date">
+          2016.03 — 2021.02
+          <span class="span">4YR · BACHELOR</span>
+        </div>
+        <div class="tl-role">
+          시각디자인 학사
+          <span class="org">동양대학교 · 학점 3.5 / 4.5</span>
+        </div>
+        <ul class="tl-bullets">
+          <li>주전공 Visual Design — 졸업</li>
+          <li>타이포그래피·편집·브랜딩·디지털 디자인 전반 학습</li>
+        </ul>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-date">
+          2022.04 — 2022.09
+          <span class="span">6M · 교육 이수</span>
+        </div>
+        <div class="tl-role">
+          웹기획 · UI/UX 디자인 과정
+          <span class="org">그린아카데미 — 직무 교육</span>
+        </div>
+        <ul class="tl-bullets">
+          <li>웹 기획 — 기초 데이터 수집 · 프로토타입 · 사용성 테스트</li>
+          <li>HTML5·CSS3·JavaScript·jQuery·AJAX 기반 표준화된 마크업 기법</li>
+          <li>접근성 고려 기업형 웹 · 모바일 웹 · 반응형 웹 프로젝트 실무 학습</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="section">
+  <div class="wrap">
+    <div class="section-label">04 — CONTACT</div>
+    <p class="contact-pre">화면을 그리지 않습니다.<br/><em>사용자의 다음 행동</em>을 설계합니다.</p>
+    <h2 class="contact-display" id="contactDisplay">
+      <span class="line"><span>THANK</span></span>
+      <span class="line"><span>YOU.</span></span>
+    </h2>
+
+    <div class="contact-cta">
+      <a href="mailto:rlawndms517@naver.com" class="magnetic-btn" id="magneticBtn">
+        rlawndms517@naver.com
+        <span class="arrow">→</span>
+      </a>
+      <div class="contact-meta">
+        <div>
+          <div class="label">PHONE</div>
+          <span>+82 10-4408-7828</span>
+        </div>
+        <div>
+          <div class="label">INSTAGRAM</div>
+          <a href="https://www.instagram.com/tomatoma.i/" target="_blank" rel="noopener">@tomatoma.i</a>
+        </div>
+        <div>
+          <div class="label">LOCATION</div>
+          <span>Seoul, Korea</span>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div>© 2026 <span class="accent">JUEUN KIM</span> — UI/UX DESIGNER</div>
+      <div>DESIGNED & BUILT WITH CARE</div>
+    </footer>
+  </div>
+</section>
+
+<!-- ===== GSAP ===== -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  /* ---------- Scroll progress ---------- */
+  const progress=document.getElementById('progress');
+  window.addEventListener('scroll',()=>{
+    const h=document.documentElement.scrollHeight-window.innerHeight;
+    const p=h>0?(window.scrollY/h)*100:0;
+    progress.style.width=p+'%';
+  },{passive:true});
+
+  /* ---------- Custom cursor ---------- */
+  const dot=document.getElementById('cursorDot');
+  const ring=document.getElementById('cursorRing');
+  let mx=window.innerWidth/2,my=window.innerHeight/2;
+  let rx=mx,ry=my;
+  window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;
+    dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;
+  });
+  function loop(){
+    rx+=(mx-rx)*0.18;ry+=(my-ry)*0.18;
+    ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+    requestAnimationFrame(loop);
+  }
+  loop();
+  const hoverables=document.querySelectorAll('a,button,.work-row,.strength,.magnetic-btn');
+  hoverables.forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+  });
+
+  /* ---------- GSAP ---------- */
+  if(window.gsap){
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero name reveal
+    gsap.to('.hero-name .line span',{
+      clipPath:'inset(0 0 0% 0)',
+      webkitClipPath:'inset(0 0 0% 0)',
+      duration:1.2,ease:'power4.out',stagger:0.18,delay:0.15
+    });
+    gsap.to('#heroBio',{opacity:1,y:0,duration:1,ease:'power3.out',delay:0.6});
+    gsap.to('#heroScroll',{opacity:1,y:0,duration:1,ease:'power3.out',delay:0.75});
+
+    // Section displays
+    gsap.utils.toArray('.reveal-display').forEach(el=>{
+      gsap.to(el,{
+        opacity:1,y:0,duration:1,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top 85%'}
+      });
+    });
+
+    // Body reveals
+    gsap.utils.toArray('.reveal-body').forEach((el,i)=>{
+      gsap.to(el,{
+        opacity:1,y:0,duration:0.9,ease:'power3.out',delay:i*0.05,
+        scrollTrigger:{trigger:el,start:'top 88%'}
+      });
+    });
+
+    // Strength cards
+    gsap.utils.toArray('.strength').forEach((el,i)=>{
+      gsap.to(el,{
+        opacity:1,y:0,duration:0.8,ease:'power3.out',delay:i*0.1,
+        scrollTrigger:{trigger:'.strengths',start:'top 80%'}
+      });
+    });
+
+    // Works rows
+    gsap.to('.work-row',{
+      opacity:1,x:0,duration:0.7,ease:'power3.out',stagger:0.07,
+      scrollTrigger:{trigger:'.works-list',start:'top 80%'}
+    });
+
+    // Experience rows
+    gsap.to('.tl-row',{
+      opacity:1,y:0,duration:0.8,ease:'power3.out',stagger:0.1,
+      scrollTrigger:{trigger:'.timeline',start:'top 85%'}
+    });
+
+    // Featured case cards
+    gsap.utils.toArray('.feature-case').forEach(el=>{
+      gsap.to(el,{
+        opacity:1,y:0,duration:1,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top 85%'}
+      });
+    });
+
+    // KPI count-up
+    document.querySelectorAll('.count').forEach(el=>{
+      const target=+el.dataset.target;
+      ScrollTrigger.create({
+        trigger:el,start:'top 90%',once:true,
+        onEnter:()=>{
+          const obj={v:0};
+          gsap.to(obj,{
+            v:target,duration:2,ease:'power2.out',
+            onUpdate:()=>{
+              el.textContent=Math.round(obj.v).toLocaleString();
+            }
+          });
+        }
+      });
+    });
+
+    // Contact display
+    gsap.to('.contact-display .line span',{
+      opacity:1,y:0,duration:1,ease:'power4.out',stagger:0.12,
+      scrollTrigger:{trigger:'#contactDisplay',start:'top 80%'}
+    });
+  }
+
+  /* ---------- Lookbook (auto-flow + hover pause + 1-image arrow slide) ---------- */
+  document.querySelectorAll('.lookbook').forEach(lb=>{
+    const track=lb.querySelector('.lookbook-track');
+    const prev=lb.querySelector('.lookbook-nav.prev');
+    const next=lb.querySelector('.lookbook-nav.next');
+    if(!track) return;
+
+    /* === Shuffle: 원본 셋 무작위 + 복제 셋 동일 순서로 동기화 === */
+    (function shuffle(){
+      const all=Array.from(track.children);
+      const half=Math.floor(all.length/2);
+      const originals=all.slice(0,half);
+      // Fisher-Yates
+      for(let i=originals.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [originals[i],originals[j]]=[originals[j],originals[i]];
+      }
+      track.innerHTML='';
+      // 원본 셋
+      originals.forEach(el=>{
+        track.appendChild(el);
+        if(el.tagName==='VIDEO'){ el.muted=true; el.play().catch(()=>{}); }
+      });
+      // 복제 셋 — 동일 순서로 cloneNode (무한 루프 일치)
+      originals.forEach(el=>{
+        const c=el.cloneNode(true);
+        c.setAttribute('aria-hidden','true');
+        track.appendChild(c);
+        if(c.tagName==='VIDEO'){ c.muted=true; c.load(); c.play().catch(()=>{}); }
+      });
+    })();
+
+    const items=Array.from(track.children);
+    const totalOriginal=items.length/2;  // 원본 세트 개수
+    const GAP=14;
+    let cumX=[];          // 각 이미지까지의 누적 X offset
+    let setWidth=0;       // 원본 1세트 전체 너비
+    let currentIndex=0;
+
+    function measure(){
+      let x=0;
+      cumX=[];
+      for(let i=0;i<items.length;i++){
+        cumX.push(x);
+        x+=items[i].offsetWidth+GAP;
+      }
+      setWidth=cumX[totalOriginal] || 0;
+    }
+    measure();
+    // 이미지 lazy-load 완료될 때마다 재측정
+    items.forEach(img=>{
+      if(!img.complete) img.addEventListener('load',measure,{once:true});
+    });
+    let rzt;
+    window.addEventListener('resize',()=>{clearTimeout(rzt);rzt=setTimeout(measure,120);});
+
+    let curX=0, targetX=0;
+    let hovering=false;
+    let lastT=performance.now();
+    const speed=0.04;     // 자동 흐름 (px/ms)
+    const lerp=0.12;      // 슬라이드 부드러움
+
+    function frame(now){
+      const dt=now-lastT;
+      lastT=now;
+      if(hovering){
+        curX+=(targetX-curX)*lerp;
+      }else{
+        curX-=speed*dt;
+        targetX=curX;
+      }
+      // 양방향 무한 루프 보정
+      if(setWidth>0){
+        while(curX<=-setWidth){ curX+=setWidth; targetX+=setWidth; }
+        while(curX>0){          curX-=setWidth; targetX-=setWidth; }
+      }
+      track.style.transform=`translate3d(${curX.toFixed(2)}px,0,0)`;
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+
+    function snapToCurrentIndex(){
+      // curX와 가장 가까운 원본 인덱스 찾아서 currentIndex 설정
+      if(!cumX.length || setWidth===0) return;
+      const adj=-curX;  // 양수로 변환
+      let best=0, min=Infinity;
+      for(let i=0;i<totalOriginal;i++){
+        const d=Math.abs(cumX[i]-adj);
+        if(d<min){ min=d; best=i; }
+      }
+      currentIndex=best;
+    }
+
+    function slide(dir){
+      // dir = +1 (next, 다음 이미지) / -1 (prev, 이전 이미지)
+      if(setWidth===0) return;
+      hovering=true;
+      // 자동 흐름 중이었다면 현재 가장 가까운 인덱스로 먼저 스냅
+      snapToCurrentIndex();
+      let nextIdx=currentIndex+dir;
+      if(nextIdx>=totalOriginal){
+        // 끝 → 처음으로 (점프 후 슬라이드)
+        nextIdx=0;
+        curX+=setWidth;
+        targetX+=setWidth;
+      }else if(nextIdx<0){
+        // 처음 → 끝으로
+        nextIdx=totalOriginal-1;
+        curX-=setWidth;
+        targetX-=setWidth;
+      }
+      currentIndex=nextIdx;
+      targetX=-cumX[currentIndex];
+    }
+
+    lb.addEventListener('mouseenter',()=>{
+      hovering=true;
+      targetX=curX;       // 정지
+      snapToCurrentIndex();
+    });
+    lb.addEventListener('mouseleave',()=>{
+      hovering=false;
+      lastT=performance.now();
+    });
+
+    if(prev) prev.addEventListener('click',e=>{ e.preventDefault(); slide(-1); });
+    if(next) next.addEventListener('click',e=>{ e.preventDefault(); slide(+1); });
+  });
+
+  /* ---------- Magnetic button ---------- */
+  const mag=document.getElementById('magneticBtn');
+  if(mag && window.matchMedia('(hover:hover)').matches){
+    mag.addEventListener('mousemove',e=>{
+      const r=mag.getBoundingClientRect();
+      const x=e.clientX-(r.left+r.width/2);
+      const y=e.clientY-(r.top+r.height/2);
+      mag.style.transform=`translate(${x*0.25}px,${y*0.25}px)`;
+    });
+    mag.addEventListener('mouseleave',()=>{
+      mag.style.transform='translate(0,0)';
+      mag.style.transition='transform .5s cubic-bezier(.2,.8,.2,1)';
+      setTimeout(()=>mag.style.transition='',500);
+    });
+  }
+})();
+</script>
+</body>
+</html>
