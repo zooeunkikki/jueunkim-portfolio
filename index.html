@@ -288,10 +288,13 @@
     font-style:normal;color:var(--accent);font-weight:700;
   }
   .about-quote{
-    margin-top:56px;padding:28px 0 28px 28px;
-    border-left:2px solid var(--accent);
+    margin-top:56px;padding:6px 0 6px 24px;position:relative;
     font-size:18px;line-height:1.65;color:var(--text-primary);font-weight:500;
     opacity:0;transform:translateY(30px);
+  }
+  .about-quote::before{
+    content:"";position:absolute;left:0;top:8px;bottom:8px;
+    width:2px;background:var(--accent);
   }
   .about-right p{
     color:var(--text-secondary);font-size:16px;line-height:1.9;margin-bottom:24px;
@@ -1106,9 +1109,12 @@
   </h1>
   <div class="hero-bottom">
     <p class="hero-bio" id="heroBio">
-      사용자의 망설임을 줄이고 <strong>사용 흐름을 설계하는</strong> UI/UX 디자이너. 약 4년간 웹·앱 UI/UX 디자인을 중심으로<br/>
-      서비스 화면 설계, 디자인 시스템 구축, 반응형 UI 설계를 수행해왔습니다.<br/>
-      현재 회원 수 <strong>37,417명 규모의 생성형 AI 콘텐츠 플랫폼</strong> UI/UX를 담당하고 있습니다.
+      사용자가 기능 앞에서 멈추지 않도록,<br/>
+      복잡한 서비스를 <strong>이해하기 쉬운 흐름으로 바꾸는</strong> UI/UX 디자이너 김주은입니다.<br/><br/>
+      약 4년간 웹·앱 서비스의 화면 설계, 디자인 시스템, 반응형 UI를 담당해왔으며,<br/>
+      현재는 회원 수 <strong>37,417명 규모의 생성형 AI 콘텐츠 플랫폼</strong> 핵심 UX를 설계하고 있습니다.<br/>
+      프롬프트 입력, 콘텐츠 생성, 미리보기, 수정, 다운로드까지 이어지는 과정을 단순화하며<br/>
+      사용자가 첫 결과물까지 자연스럽게 도달할 수 있는 화면 구조를 만듭니다.
     </p>
     <a href="#about" class="hero-scroll" id="heroScroll">
       SCROLL <span class="arrow"></span>
@@ -1794,7 +1800,26 @@
     btn.addEventListener('click',()=>{
       menu.classList.contains('is-open')?close():open();
     });
-    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
+    menu.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click',(e)=>{
+        const href=a.getAttribute('href');
+        if(href && href.charAt(0)==='#' && href.length>1){
+          const target=document.querySelector(href);
+          if(target){
+            e.preventDefault();
+            close();
+            requestAnimationFrame(()=>{
+              requestAnimationFrame(()=>{
+                target.scrollIntoView({behavior:'smooth',block:'start'});
+                history.replaceState(null,'',href);
+              });
+            });
+            return;
+          }
+        }
+        close();
+      });
+    });
     document.addEventListener('keydown',e=>{ if(e.key==='Escape') close(); });
   })();
 
