@@ -104,6 +104,24 @@
     spy();
   })();
 
+  /* ---------- Video lazy autoplay (viewport-aware) ---------- */
+  (function(){
+    const videos=document.querySelectorAll('video');
+    if(!videos.length || !('IntersectionObserver' in window)) return;
+    const io=new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        const v=entry.target;
+        if(entry.isIntersecting){
+          const p=v.play();
+          if(p && typeof p.catch==='function') p.catch(()=>{});
+        }else{
+          v.pause();
+        }
+      });
+    },{rootMargin:'80px 0px',threshold:0.1});
+    videos.forEach(v=>io.observe(v));
+  })();
+
   const hoverables=document.querySelectorAll('a,button,.work-row,.strength,.magnetic-btn');
   hoverables.forEach(el=>{
     el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
