@@ -401,10 +401,11 @@ section{position:relative;z-index:2;}
 }
 .feature-title{
   font-size:clamp(40px,5vw,64px);font-weight:900;letter-spacing:-.03em;
-  line-height:1;margin-bottom:14px;color:var(--text-primary);
+  line-height:1.05;margin-bottom:48px;color:var(--text-primary);
 }
-.feature-sub{
-  font-size:17px;color:var(--text-secondary);font-weight:500;margin-bottom:48px;
+.feature-title .feature-tag{
+  font-size:17px;font-weight:500;color:var(--text-secondary);
+  letter-spacing:.005em;line-height:1.4;margin-left:.15em;
 }
 .feature-meta{
   display:grid;grid-template-columns:repeat(4,1fr);gap:32px;
@@ -943,7 +944,7 @@ footer .accent{color:var(--accent);}
   .hero-name{font-size:clamp(48px,12vw,84px);}
   .section-display{font-size:clamp(40px,10vw,64px);margin-bottom:36px;}
   .feature-title{font-size:clamp(32px,8vw,48px);}
-  .feature-sub{font-size:15px;margin-bottom:32px;}
+  .feature-title .feature-tag{font-size:16px;}
   .chapter h4{font-size:clamp(24px,7vw,32px);}
   .chapter{margin-top:64px;padding-top:32px;margin-bottom:24px;}
   .strength{padding:26px 20px;}
