@@ -483,7 +483,7 @@ section{position:relative;z-index:2;}
 .gallery-grid img:hover{transform:translateY(-4px);border-color:var(--accent);}
 .gallery-caption{
   font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--text-secondary);
-  text-transform:uppercase;margin-top:14px;text-align:right;
+  text-transform:uppercase;margin-top:-8px;text-align:right;
 }
 @media (max-width:768px){
   .gallery-grid{grid-template-columns:1fr;gap:12px;}
