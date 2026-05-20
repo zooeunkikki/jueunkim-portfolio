@@ -576,7 +576,7 @@ section{position:relative;z-index:2;}
   letter-spacing:-.02em;line-height:1.12;margin-top:14px;
 }
 .chapter .desc{
-  font-size:14.5px;color:var(--text-secondary);line-height:1.8;max-width:560px;
+  font-size:14.5px;color:var(--text-secondary);line-height:1.8;max-width:720px;
   justify-self:end;text-align:right;
 }
 .chapter .desc strong{color:var(--text-primary);font-weight:600;}
