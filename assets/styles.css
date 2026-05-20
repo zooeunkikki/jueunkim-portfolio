@@ -304,10 +304,10 @@ section{position:relative;z-index:2;}
 .strength:hover{border-color:var(--accent);transform:translateY(-4px);}
 .strength .num{
   font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--accent);
-  margin-bottom:20px;display:block;
+  margin-bottom:8px;display:block;
 }
 .strength h3{
-  font-size:22px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px;
+  font-size:22px;font-weight:800;letter-spacing:-.01em;margin-bottom:4px;
   color:var(--text-primary);
 }
 .strength .kr{
