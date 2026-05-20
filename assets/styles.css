@@ -307,7 +307,7 @@ section{position:relative;z-index:2;}
   margin-bottom:8px;display:block;
 }
 .strength h3{
-  font-size:22px;font-weight:800;letter-spacing:-.01em;margin-bottom:4px;
+  font-size:22px;font-weight:800;letter-spacing:-.01em;margin-bottom:0;
   color:var(--text-primary);
 }
 .strength .kr{
