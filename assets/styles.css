@@ -830,16 +830,6 @@ section{position:relative;z-index:2;}
 #contact{
   padding:200px 0 120px;
   min-height:100vh;
-  display:flex;
-  flex-direction:column;
-}
-#contact > .wrap{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-}
-#contact footer{
-  margin-top:auto;
 }
 .contact-pre{
   font-size:clamp(20px,2.2vw,28px);font-weight:500;
