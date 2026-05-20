@@ -576,13 +576,14 @@ section{position:relative;z-index:2;}
   letter-spacing:-.02em;line-height:1.12;margin-top:14px;
 }
 .chapter .desc{
-  font-size:14.5px;color:var(--text-secondary);line-height:1.8;max-width:720px;
+  font-size:14.5px;color:var(--text-secondary);line-height:1.8;max-width:780px;
   justify-self:end;text-align:right;
 }
 .chapter .desc strong{color:var(--text-primary);font-weight:600;}
 @media (max-width:768px){
   .chapter{grid-template-columns:1fr;gap:18px;margin-top:64px;padding-top:32px;}
   .chapter .desc{text-align:left;justify-self:start;}
+  .chapter .desc br{display:none;}
 }
 
 /* ---------- Output Reel (video grid) ---------- */
