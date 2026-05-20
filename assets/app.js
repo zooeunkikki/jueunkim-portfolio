@@ -64,15 +64,36 @@
     document.addEventListener('keydown',e=>{ if(e.key==='Escape') close(); });
   })();
 
-  /* ---------- Side nav scrollspy ---------- */
+  /* ---------- Side nav scrollspy + click ---------- */
   (function(){
     const navLinks=document.querySelectorAll('.side-nav a');
     if(!navLinks.length) return;
     const sections=Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+    navLinks.forEach(a=>{
+      a.addEventListener('click',(e)=>{
+        const href=a.getAttribute('href');
+        if(href && href.charAt(0)==='#' && href.length>1){
+          const target=document.querySelector(href);
+          if(target){
+            e.preventDefault();
+            target.scrollIntoView({behavior:'smooth',block:'start'});
+            history.replaceState(null,'',href);
+          }
+        }
+      });
+    });
+
     function spy(){
-      const y=window.scrollY+window.innerHeight*0.35;
+      const scrollY=window.scrollY;
+      const maxScroll=document.documentElement.scrollHeight-window.innerHeight;
       let active=null;
-      sections.forEach(sec=>{ if(sec.offsetTop<=y) active=sec.id; });
+      if(scrollY>=maxScroll-2 && sections.length){
+        active=sections[sections.length-1].id;
+      }else{
+        const y=scrollY+window.innerHeight*0.35;
+        sections.forEach(sec=>{ if(sec.offsetTop<=y) active=sec.id; });
+      }
       navLinks.forEach(a=>{
         if(a.getAttribute('href')==='#'+active) a.classList.add('is-active');
         else a.classList.remove('is-active');
