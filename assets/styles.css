@@ -902,7 +902,7 @@ footer .accent{color:var(--accent);}
   .topbar .left,.topbar .right{font-size:10px;letter-spacing:.16em;line-height:1.4;}
   .hero{padding:120px 24px 40px;min-height:200vh;display:grid;grid-template-rows:1fr 1fr;position:relative;}
   .hero > div:first-child{display:none;}
-  .hero-name{align-self:center;}
+  .hero-name{align-self:center;padding-bottom:18vh;}
   .hero-bottom{grid-row:2;align-self:end;flex-direction:column;align-items:flex-start;gap:32px;}
   .hero-scroll{position:absolute;bottom:calc(100vh + 24px);left:50%;transform:translateX(-50%);}
   .section{padding:100px 0;}
