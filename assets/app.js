@@ -107,6 +107,23 @@
     spy();
   })();
 
+  /* ---------- In-page anchor links (work-row · hero-scroll) ---------- */
+  (function(){
+    document.querySelectorAll('.work-row, .hero-scroll').forEach(a=>{
+      a.addEventListener('click',(e)=>{
+        const href=a.getAttribute('href');
+        if(href && href.charAt(0)==='#' && href.length>1){
+          const target=document.querySelector(href);
+          if(target){
+            e.preventDefault();
+            target.scrollIntoView({behavior:'smooth',block:'start'});
+            history.replaceState(null,'',href);
+          }
+        }
+      });
+    });
+  })();
+
   /* ---------- Video lazy autoplay (viewport-aware) ---------- */
   (function(){
     const videos=document.querySelectorAll('video');
