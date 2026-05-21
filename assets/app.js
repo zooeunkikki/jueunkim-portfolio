@@ -7,20 +7,23 @@
     progress.style.width=p+'%';
   },{passive:true});
 
-  /* ---------- Custom cursor ---------- */
-  const dot=document.getElementById('cursorDot');
-  const ring=document.getElementById('cursorRing');
-  let mx=window.innerWidth/2,my=window.innerHeight/2;
-  let rx=mx,ry=my;
-  window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;
-    dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;
-  });
-  function loop(){
-    rx+=(mx-rx)*0.18;ry+=(my-ry)*0.18;
-    ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
-    requestAnimationFrame(loop);
+  /* ---------- Custom cursor (desktop only) ---------- */
+  const isHoverDevice=window.matchMedia('(hover:hover)').matches && window.matchMedia('(min-width:769px)').matches;
+  if(isHoverDevice){
+    const dot=document.getElementById('cursorDot');
+    const ring=document.getElementById('cursorRing');
+    let mx=window.innerWidth/2,my=window.innerHeight/2;
+    let rx=mx,ry=my;
+    window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;
+      dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;
+    });
+    function loop(){
+      rx+=(mx-rx)*0.18;ry+=(my-ry)*0.18;
+      ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+      requestAnimationFrame(loop);
+    }
+    loop();
   }
-  loop();
   /* ---------- Mobile menu toggle ---------- */
   (function(){
     const btn=document.getElementById('mobileMenuBtn');
@@ -122,11 +125,13 @@
     videos.forEach(v=>io.observe(v));
   })();
 
-  const hoverables=document.querySelectorAll('a,button,.work-row,.strength,.magnetic-btn');
-  hoverables.forEach(el=>{
-    el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
-  });
+  if(isHoverDevice){
+    const hoverables=document.querySelectorAll('a,button,.work-row,.strength,.magnetic-btn');
+    hoverables.forEach(el=>{
+      el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+    });
+  }
 
   /* ---------- GSAP ---------- */
   if(window.gsap){
