@@ -970,6 +970,7 @@ footer .accent{color:var(--accent);}
   .qr-row{gap:28px;margin-top:24px;}
   .qr-card img{width:84px;height:84px;}
   .qr-caption{font-size:13px;}
+  .marquee{margin-top:48px;}
   .marquee span{font-size:12px;padding:0 20px;letter-spacing:.13em;}
   .marquee-track{padding:18px 0;}
   .contact-display{font-size:clamp(48px,12vw,80px);}
