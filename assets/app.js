@@ -146,6 +146,25 @@
     });
   })();
 
+  /* ---------- Resume accordion (mobile-only) ---------- */
+  (function(){
+    const details=document.querySelectorAll('details.resume-toggle');
+    if(!details.length) return;
+    const mql=window.matchMedia('(min-width:769px)');
+    function syncDesktop(){
+      if(mql.matches){details.forEach(d=>{d.open=true;});}
+    }
+    syncDesktop();
+    if(mql.addEventListener) mql.addEventListener('change',syncDesktop);
+    details.forEach(d=>{
+      const s=d.querySelector('summary');
+      if(!s) return;
+      s.addEventListener('click',(e)=>{
+        if(mql.matches) e.preventDefault();
+      });
+    });
+  })();
+
   /* ---------- Video lazy autoplay (viewport-aware) ---------- */
   (function(){
     const videos=document.querySelectorAll('video');

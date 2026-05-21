@@ -797,6 +797,27 @@ section{position:relative;z-index:2;}
   .resume-grid{grid-template-columns:1fr;gap:32px;}
 }
 
+/* ---------- Resume accordion (mobile-only behavior) ---------- */
+.resume-toggle{display:block;}
+.resume-toggle > summary{list-style:none;outline:none;cursor:default;}
+.resume-toggle > summary::-webkit-details-marker{display:none;}
+.resume-toggle > summary::marker{display:none;}
+@media (max-width:768px){
+  .resume-toggle > summary{cursor:pointer;}
+  .resume-toggle > summary > .rh{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:0;padding-bottom:14px;
+  }
+  .resume-toggle > summary > .rh::after{
+    content:'＋';
+    font-size:18px;font-weight:400;color:var(--accent);
+    margin-left:12px;line-height:1;
+    transition:transform .25s ease;
+  }
+  .resume-toggle[open] > summary > .rh::after{content:'−';}
+  .resume-toggle > ul{margin-top:24px;}
+}
+
 /* ---------- EXPERIENCE (legacy timeline, kept for backward) ---------- */
 .timeline{display:flex;flex-direction:column;}
 .tl-row{
