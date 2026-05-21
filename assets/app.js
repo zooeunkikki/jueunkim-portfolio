@@ -1,4 +1,26 @@
 (function(){
+  /* ---------- Anchor scroll helper (layout settle correction) ---------- */
+  function scrollToAnchor(target){
+    if(!target) return;
+    target.scrollIntoView({behavior:'smooth',block:'start'});
+    let tries=0;
+    (function recheck(){
+      if(tries++>=3) return;
+      setTimeout(()=>{
+        const top=target.getBoundingClientRect().top;
+        if(Math.abs(top)>20){
+          target.scrollIntoView({behavior:'smooth',block:'start'});
+          recheck();
+        }
+      },500);
+    })();
+  }
+
+  /* ---------- ScrollTrigger refresh on full page load ---------- */
+  window.addEventListener('load',()=>{
+    if(window.ScrollTrigger) window.ScrollTrigger.refresh();
+  });
+
   /* ---------- Scroll progress ---------- */
   const progress=document.getElementById('progress');
   window.addEventListener('scroll',()=>{
@@ -54,7 +76,7 @@
             close();
             requestAnimationFrame(()=>{
               requestAnimationFrame(()=>{
-                target.scrollIntoView({behavior:'smooth',block:'start'});
+                scrollToAnchor(target);
                 history.replaceState(null,'',href);
               });
             });
@@ -80,7 +102,7 @@
           const target=document.querySelector(href);
           if(target){
             e.preventDefault();
-            target.scrollIntoView({behavior:'smooth',block:'start'});
+            scrollToAnchor(target);
             history.replaceState(null,'',href);
           }
         }
@@ -116,7 +138,7 @@
           const target=document.querySelector(href);
           if(target){
             e.preventDefault();
-            target.scrollIntoView({behavior:'smooth',block:'start'});
+            scrollToAnchor(target);
             history.replaceState(null,'',href);
           }
         }
