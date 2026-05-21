@@ -165,10 +165,33 @@
     });
   })();
 
-  /* ---------- Video lazy autoplay (viewport-aware) ---------- */
+  /* ---------- Video lazy autoplay (viewport-aware + iOS unlock) ---------- */
   (function(){
     const videos=document.querySelectorAll('video');
     if(!videos.length || !('IntersectionObserver' in window)) return;
+
+    // iOS Safari: 첫 사용자 인터랙션 시 모든 video unlock
+    // (script로 시작된 .play()는 첫 gesture 전엔 iOS에서 차단됨)
+    let unlocked=false;
+    function unlock(){
+      if(unlocked) return;
+      unlocked=true;
+      videos.forEach(v=>{
+        v.muted=true;
+        const p=v.play();
+        if(p && typeof p.catch==='function'){
+          p.then(()=>{
+            const r=v.getBoundingClientRect();
+            const inView=r.top<window.innerHeight && r.bottom>0;
+            if(!inView) v.pause();
+          }).catch(()=>{});
+        }
+      });
+    }
+    ['touchstart','pointerdown','click','scroll'].forEach(ev=>{
+      window.addEventListener(ev,unlock,{once:true,passive:true});
+    });
+
     const io=new IntersectionObserver((entries)=>{
       entries.forEach(entry=>{
         const v=entry.target;
